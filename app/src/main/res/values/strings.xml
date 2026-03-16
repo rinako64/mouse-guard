@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">おくちとじてね</string>
+    <string name="camera_permission_message">口の検知にカメラの使用許可が必要です</string>
+    <string name="mouth_ratio_format">口開き比率: %.3f</string>
+    <string name="mouth_open">口が開いています</string>
+    <string name="mouth_closed">口が閉じています</string>
+    <string name="no_face">顔が検出されません</string>
+    <string name="camera_permission_denied">カメラの許可が必要です</string>
+</resources>
