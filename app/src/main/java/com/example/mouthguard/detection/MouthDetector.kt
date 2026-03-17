@@ -11,7 +11,7 @@ data class MouthDetectionResult(
 )
 
 class MouthDetector(
-    private val threshold: Float = 0.08f
+    private val threshold: Float = 0.04f
 ) {
 
     fun calculateMouthOpenRatio(face: Face): Float? {
@@ -20,16 +20,17 @@ class MouthDetector(
 
         if (upperLipBottom.isNullOrEmpty() || lowerLipTop.isNullOrEmpty()) return null
 
-        // Use the center point of each contour
-        val upperCenter = upperLipBottom[upperLipBottom.size / 2]
-        val lowerCenter = lowerLipTop[lowerLipTop.size / 2]
+        // Use average Y of all points for stability
+        val upperAvgY = upperLipBottom.map { it.y }.average().toFloat()
+        val lowerAvgY = lowerLipTop.map { it.y }.average().toFloat()
 
-        val mouthGap = Math.abs(lowerCenter.y - upperCenter.y)
-        val faceHeight = face.boundingBox.height().toFloat()
+        val mouthGap = Math.abs(lowerAvgY - upperAvgY)
 
-        if (faceHeight <= 0f) return null
+        // Normalize by mouth width instead of face height for better accuracy
+        val mouthWidth = Math.abs(upperLipBottom.last().x - upperLipBottom.first().x)
+        if (mouthWidth <= 0f) return null
 
-        return mouthGap / faceHeight
+        return mouthGap / mouthWidth
     }
 
     fun isMouthOpen(face: Face): Boolean {
