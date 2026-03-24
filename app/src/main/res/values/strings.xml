@@ -9,6 +9,7 @@
     <string name="no_face">顔が検出されません</string>
     <string name="camera_permission_denied">カメラの許可が必要です</string>
     <string name="mouth_open_warning">おくちとじてね！</string>
+    <string name="initializing">カメラ準備中…</string>
     <string name="video_error">動画の再生に失敗しました</string>
     <string name="btn_start_monitoring">監視スタート</string>
     <string name="btn_stop_monitoring">監視ストップ</string>

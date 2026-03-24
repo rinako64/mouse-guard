@@ -9,18 +9,21 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
 class FaceAnalyzer(
+    private val getRotationDegrees: () -> Int,
     private val onResult: (MouthDetectionResult?) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     companion object {
         private const val TAG = "MouthGuard"
-        private const val THROTTLE_MS = 500L
+        private const val THROTTLE_MS = 250L
     }
 
     private val detector = FaceDetection.getClient(
         FaceDetectorOptions.Builder()
-            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
             .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
             .build()
     )
 
@@ -42,19 +45,21 @@ class FaceAnalyzer(
             return
         }
 
-        val inputImage = InputImage.fromMediaImage(
-            mediaImage,
-            imageProxy.imageInfo.rotationDegrees
-        )
+        val rotation = getRotationDegrees()
+        Log.d(TAG, "Rotation: $rotation")
+        val inputImage = InputImage.fromMediaImage(mediaImage, rotation)
 
         detector.process(inputImage)
             .addOnSuccessListener { faces ->
+                Log.d(TAG, "Faces detected: ${faces.size}")
                 if (faces.isEmpty()) {
                     onResult(null)
                 } else {
                     val result = mouthDetector.detect(faces[0])
                     if (result != null) {
                         Log.d(TAG, "Mouth ratio: ${result.ratio}, open: ${result.isOpen}")
+                    } else {
+                        Log.d(TAG, "Contour not available")
                     }
                     onResult(result)
                 }
