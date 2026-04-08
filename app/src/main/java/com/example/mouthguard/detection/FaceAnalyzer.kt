@@ -9,13 +9,12 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
 class FaceAnalyzer(
-    private val getRotationDegrees: () -> Int,
     private val onResult: (MouthDetectionResult?) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     companion object {
         private const val TAG = "MouthGuard"
-        private const val THROTTLE_MS = 250L
+        private const val THROTTLE_MS = 200L
     }
 
     private val detector = FaceDetection.getClient(
@@ -45,19 +44,19 @@ class FaceAnalyzer(
             return
         }
 
-        val rotation = getRotationDegrees()
-        Log.d(TAG, "Rotation: $rotation")
+        // CameraXが算出した正しい回転値をそのまま使う
+        val rotation = imageProxy.imageInfo.rotationDegrees
         val inputImage = InputImage.fromMediaImage(mediaImage, rotation)
 
         detector.process(inputImage)
             .addOnSuccessListener { faces ->
-                Log.d(TAG, "Faces detected: ${faces.size}")
+                Log.d(TAG, "Faces: ${faces.size}, rotation: $rotation")
                 if (faces.isEmpty()) {
                     onResult(null)
                 } else {
                     val result = mouthDetector.detect(faces[0])
                     if (result != null) {
-                        Log.d(TAG, "Mouth ratio: ${result.ratio}, open: ${result.isOpen}")
+                        Log.d(TAG, "avgR=${result.ratio} maxR=${result.maxRatio} open=${result.isOpen}")
                     } else {
                         Log.d(TAG, "Contour not available")
                     }

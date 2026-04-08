@@ -8,6 +8,7 @@ import kotlin.math.hypot
 
 data class MouthDetectionResult(
     val ratio: Float,
+    val maxRatio: Float,
     val isOpen: Boolean,
     val faceRect: Rect
 )
@@ -16,9 +17,11 @@ class MouthDetector {
     companion object {
         private const val TAG = "MouthGuard"
         // 口幅に対する唇隙間の比率で判定
-        // 閉じた口: ratio ≈ 0.00〜0.05（唇が接触、隙間ほぼゼロ）
-        // 開いた口: ratio ≈ 0.10+（明確な隙間）
-        private const val THRESHOLD = 0.08f
+        // 閉じた口: ratio ≈ 0.00〜0.03（唇が接触、隙間ほぼゼロ）
+        // お口ぽかん: ratio ≈ 0.04〜0.08（軽く開いている）
+        // 大きく開いた口: ratio ≈ 0.10+（明確な隙間）
+        private const val THRESHOLD_AVG = 0.08f   // 平均ギャップの閾値
+        private const val THRESHOLD_MAX = 0.10f   // 最大ギャップの閾値（片側だけ開いているケース）
     }
 
     fun detect(face: Face): MouthDetectionResult? {
@@ -41,27 +44,64 @@ class MouthDetector {
         val perpX = -mouthDy / mouthWidth
         val perpY = mouthDx / mouthWidth
 
-        // 上唇内側・下唇内側の中央3点の垂直座標を平均して隙間を算出
-        val upperPerp = averagePerpProjection(upperInner, left.x, left.y, perpX, perpY)
-        val lowerPerp = averagePerpProjection(lowerInner, left.x, left.y, perpX, perpY)
-
-        // 符号付き隙間：正なら口が開いている、0〜負なら閉じている
-        val gap = lowerPerp - upperPerp
+        // 上唇内側・下唇内側の中央5点の垂直座標を使って隙間を算出
+        val avgGap = computeAverageGap(upperInner, lowerInner, left.x, left.y, perpX, perpY)
+        val maxGap = computeMaxGap(upperInner, lowerInner, left.x, left.y, perpX, perpY)
 
         // 口幅で正規化（顔の大きさ・距離に依存しない）
-        val ratio = gap / mouthWidth
+        val avgRatio = avgGap / mouthWidth
+        val maxRatio = maxGap / mouthWidth
 
-        val isOpen = ratio > THRESHOLD
-        Log.d(TAG, "gap=${"%.1f".format(gap)} w=${"%.1f".format(mouthWidth)} ratio=${"%.3f".format(ratio)} open=$isOpen")
+        // 平均ギャップ OR 最大ギャップのどちらかが閾値を超えたら「開いている」
+        val isOpen = avgRatio > THRESHOLD_AVG || maxRatio > THRESHOLD_MAX
+        Log.d(TAG, "avgGap=${"%.1f".format(avgGap)} maxGap=${"%.1f".format(maxGap)} w=${"%.1f".format(mouthWidth)} avgR=${"%.3f".format(avgRatio)} maxR=${"%.3f".format(maxRatio)} open=$isOpen")
 
         return MouthDetectionResult(
-            ratio = ratio,
+            ratio = avgRatio,
+            maxRatio = maxRatio,
             isOpen = isOpen,
             faceRect = face.boundingBox
         )
     }
 
-    /** 輪郭点リストの中央3点について、口の軸に垂直な成分の平均を返す */
+    /** 中央5点の平均ギャップを算出 */
+    private fun computeAverageGap(
+        upperPoints: List<android.graphics.PointF>,
+        lowerPoints: List<android.graphics.PointF>,
+        originX: Float, originY: Float,
+        perpX: Float, perpY: Float
+    ): Float {
+        val upperPerp = averagePerpProjection(upperPoints, originX, originY, perpX, perpY)
+        val lowerPerp = averagePerpProjection(lowerPoints, originX, originY, perpX, perpY)
+        return maxOf(0f, lowerPerp - upperPerp)
+    }
+
+    /** 対応する点ペアの中で最大のギャップを返す */
+    private fun computeMaxGap(
+        upperPoints: List<android.graphics.PointF>,
+        lowerPoints: List<android.graphics.PointF>,
+        originX: Float, originY: Float,
+        perpX: Float, perpY: Float
+    ): Float {
+        val uN = upperPoints.size
+        val lN = lowerPoints.size
+        val uCenter = uN / 2
+        val lCenter = lN / 2
+        val sampleRange = 2  // 中央±2 = 最大5点
+        var maxGap = 0f
+
+        for (offset in -sampleRange..sampleRange) {
+            val ui = (uCenter + offset).coerceIn(0, uN - 1)
+            val li = (lCenter + offset).coerceIn(0, lN - 1)
+            val uPerp = (upperPoints[ui].x - originX) * perpX + (upperPoints[ui].y - originY) * perpY
+            val lPerp = (lowerPoints[li].x - originX) * perpX + (lowerPoints[li].y - originY) * perpY
+            val gap = lPerp - uPerp
+            if (gap > maxGap) maxGap = gap
+        }
+        return maxGap
+    }
+
+    /** 輪郭点リストの中央5点について、口の軸に垂直な成分の平均を返す */
     private fun averagePerpProjection(
         points: List<android.graphics.PointF>,
         originX: Float, originY: Float,
@@ -69,8 +109,8 @@ class MouthDetector {
     ): Float {
         val n = points.size
         val center = n / 2
-        val from = maxOf(0, center - 1)
-        val to = minOf(n - 1, center + 1)
+        val from = maxOf(0, center - 2)
+        val to = minOf(n - 1, center + 2)
         var sum = 0f
         var count = 0
         for (i in from..to) {

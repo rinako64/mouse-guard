@@ -6,21 +6,21 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.PixelFormat
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraManager
 import android.hardware.display.DisplayManager
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
+import android.util.Size
 import android.view.Display
-import android.view.Gravity
 import android.view.KeyEvent
-import android.view.Surface
 import android.view.LayoutInflater
+import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import androidx.camera.core.CameraSelector
@@ -32,7 +32,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.example.mouthguard.R
-import com.example.mouthguard.databinding.LayoutFloatingCameraBinding
 import com.example.mouthguard.databinding.LayoutFloatingOverlayBinding
 import com.example.mouthguard.detection.FaceAnalyzer
 import java.util.concurrent.Executors
@@ -52,31 +51,37 @@ class FloatingCameraService : Service(), LifecycleOwner {
 
     private lateinit var windowManager: WindowManager
     private lateinit var displayManager: DisplayManager
-    private var cameraBinding: LayoutFloatingCameraBinding? = null
     private var overlayBinding: LayoutFloatingOverlayBinding? = null
-    private var overlayParams: WindowManager.LayoutParams? = null
-    private val cameraExecutor = Executors.newSingleThreadExecutor()
-    private val mainHandler = Handler(Looper.getMainLooper())
-    private var isMouthOpen = false
-    private var consecutiveClosedCount = 0
-    private var consecutiveOpenCount = 0
-    private val CLOSE_DEBOUNCE_FRAMES = 2
-    private val OPEN_DEBOUNCE_FRAMES = 2
     private var imageAnalysisUseCase: ImageAnalysis? = null
-    private var frameCount = 0
-    private val WARMUP_FRAMES = 4
-    private var calibrated = false
-    private var frontCameraSensorOrientation = 270  // デフォルト値
 
     private val displayListener = object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) {}
         override fun onDisplayRemoved(displayId: Int) {}
         override fun onDisplayChanged(displayId: Int) {
             if (displayId == Display.DEFAULT_DISPLAY) {
-                updateAnalysisRotation()
+                // 回転値だけ更新（状態リセットはしない）
+                val rotation = getTargetRotation()
+                imageAnalysisUseCase?.targetRotation = rotation
+                Log.d(TAG, "Display rotation updated: $rotation")
             }
         }
     }
+    private val cameraExecutor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    // --- 口開閉の状態管理 ---
+    private var isMouthOpen = false
+    private var mouthOpenSince = 0L
+    private var consecutiveClosedCount = 0
+    private var consecutiveOpenCount = 0
+    private val OPEN_DEBOUNCE = 2
+    private val CLOSE_DEBOUNCE = 8
+    private val MIN_OPEN_HOLD_MS = 3000L
+
+    // --- オーディオフォーカス ---
+    private lateinit var audioManager: AudioManager
+    private var audioFocusRequest: AudioFocusRequest? = null
+    private var hasAudioFocus = false
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -89,61 +94,29 @@ class FloatingCameraService : Service(), LifecycleOwner {
 
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         displayManager = getSystemService(DisplayManager::class.java)
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         displayManager.registerDisplayListener(displayListener, mainHandler)
-        detectFrontCameraSensorOrientation()
+
+        audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build()
+            )
+            .setOnAudioFocusChangeListener { }
+            .build()
 
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, buildNotification())
-        setupFloatingCamera()
         setupOverlay()
         startCamera()
-    }
-
-    private fun detectFrontCameraSensorOrientation() {
-        try {
-            val cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
-            for (id in cameraManager.cameraIdList) {
-                val chars = cameraManager.getCameraCharacteristics(id)
-                if (chars.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
-                    frontCameraSensorOrientation = chars.get(CameraCharacteristics.SENSOR_ORIENTATION) ?: 270
-                    Log.d(TAG, "Front camera sensor orientation: $frontCameraSensorOrientation")
-                    break
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to get sensor orientation", e)
-        }
-    }
-
-    /** ML Kit用の回転値を計算（フロントカメラ対応） */
-    private fun getRotationForMLKit(): Int {
-        val display = displayManager.getDisplay(Display.DEFAULT_DISPLAY)
-        val displayRotation = display?.rotation ?: Surface.ROTATION_0
-        val displayDegrees = displayRotation * 90
-        // フロントカメラ: (sensor + display) % 360
-        val rotation = (frontCameraSensorOrientation + displayDegrees) % 360
-        return rotation
     }
 
     private fun getTargetRotation(): Int {
         val display = displayManager.getDisplay(Display.DEFAULT_DISPLAY)
             ?: return Surface.ROTATION_0
         return display.rotation
-    }
-
-    private fun updateAnalysisRotation() {
-        val targetRotation = getTargetRotation()
-        Log.d(TAG, "Display changed -> targetRotation=$targetRotation")
-        imageAnalysisUseCase?.targetRotation = targetRotation
-        consecutiveOpenCount = 0
-        consecutiveClosedCount = 0
-        frameCount = 0
-        calibrated = false
-
-        if (isMouthOpen) {
-            isMouthOpen = false
-            mainHandler.post { onMouthStateChanged(false) }
-        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -153,12 +126,15 @@ class FloatingCameraService : Service(), LifecycleOwner {
 
     override fun onDestroy() {
         isRunning = false
+        if (hasAudioFocus) {
+            audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
+            hasAudioFocus = false
+        }
+        displayManager.unregisterDisplayListener(displayListener)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        displayManager.unregisterDisplayListener(displayListener)
         cameraExecutor.shutdown()
-        cameraBinding?.let { runCatching { windowManager.removeView(it.root) } }
         overlayBinding?.let { runCatching { windowManager.removeView(it.root) } }
         super.onDestroy()
     }
@@ -191,42 +167,20 @@ class FloatingCameraService : Service(), LifecycleOwner {
             .build()
     }
 
-    private fun setupFloatingCamera() {
-        cameraBinding = LayoutFloatingCameraBinding.inflate(LayoutInflater.from(this))
-        cameraBinding!!.btnStop.setOnClickListener { stopSelf() }
-
-        val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        ).apply {
-            gravity = Gravity.TOP or Gravity.END
-            x = 16
-            y = 120
-            // 他アプリの画面回転をブロックしない
-            screenOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-        }
-        windowManager.addView(cameraBinding!!.root, params)
-    }
-
     private fun setupOverlay() {
         overlayBinding = LayoutFloatingOverlayBinding.inflate(LayoutInflater.from(this))
         overlayBinding!!.root.visibility = View.GONE
 
-        overlayParams = WindowManager.LayoutParams(
+        val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
             PixelFormat.TRANSLUCENT
-        ).apply {
-            // 他アプリの画面回転をブロックしない
-            screenOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-        }
-        windowManager.addView(overlayBinding!!.root, overlayParams!!)
+        )
+        windowManager.addView(overlayBinding!!.root, params)
     }
 
     private fun startCamera() {
@@ -235,65 +189,48 @@ class FloatingCameraService : Service(), LifecycleOwner {
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
 
+            // ImageAnalysis のみ（Previewなし → 解像度制約なし）
             val analysis = ImageAnalysis.Builder()
+                .setTargetResolution(Size(640, 480))
                 .setTargetRotation(getTargetRotation())
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also { a ->
-                    a.setAnalyzer(cameraExecutor, FaceAnalyzer(::getRotationForMLKit) { result ->
-                        frameCount++
-
-                        // ウォームアップ：カメラ安定前はスキップ
-                        if (frameCount <= WARMUP_FRAMES) {
-                            Log.d(TAG, "Warmup $frameCount/$WARMUP_FRAMES")
-                            return@FaceAnalyzer
-                        }
+                    a.setAnalyzer(cameraExecutor, FaceAnalyzer { result ->
+                        val now = System.currentTimeMillis()
 
                         if (result == null) {
+                            // 顔未検出 → 状態を維持（閉じ判定にカウントしない）
                             consecutiveOpenCount = 0
-                            consecutiveClosedCount++
-                            if (isMouthOpen && consecutiveClosedCount >= CLOSE_DEBOUNCE_FRAMES * 2) {
-                                isMouthOpen = false
-                                mainHandler.post { onMouthStateChanged(false) }
-                            }
                             return@FaceAnalyzer
                         }
 
                         val isOpen = result.isOpen
-                        Log.d(TAG, "ratio=${"%.3f".format(result.ratio)} open=$isOpen cal=$calibrated state=$isMouthOpen")
-
-                        // キャリブレーション：最初に「閉じ」を2回連続で確認してから判定開始
-                        if (!calibrated) {
-                            if (!isOpen) {
-                                consecutiveClosedCount++
-                                if (consecutiveClosedCount >= 2) {
-                                    calibrated = true
-                                    consecutiveClosedCount = 0
-                                    Log.d(TAG, "Calibrated — closed mouth baseline confirmed")
-                                }
-                            } else {
-                                consecutiveClosedCount = 0
-                            }
-                            return@FaceAnalyzer
-                        }
+                        Log.d(TAG, "avgR=${"%.3f".format(result.ratio)} maxR=${"%.3f".format(result.maxRatio)} open=$isOpen state=$isMouthOpen openCnt=$consecutiveOpenCount closeCnt=$consecutiveClosedCount")
 
                         if (isOpen) {
                             consecutiveClosedCount = 0
                             consecutiveOpenCount++
-                            if (!isMouthOpen && consecutiveOpenCount >= OPEN_DEBOUNCE_FRAMES) {
+                            if (!isMouthOpen && consecutiveOpenCount >= OPEN_DEBOUNCE) {
                                 isMouthOpen = true
+                                mouthOpenSince = now
+                                Log.d(TAG, ">>> MOUTH OPEN detected!")
                                 mainHandler.post { onMouthStateChanged(true) }
                             }
                         } else {
                             consecutiveOpenCount = 0
                             consecutiveClosedCount++
-                            if (isMouthOpen && consecutiveClosedCount >= CLOSE_DEBOUNCE_FRAMES) {
+                            if (isMouthOpen
+                                && consecutiveClosedCount >= CLOSE_DEBOUNCE
+                                && now - mouthOpenSince >= MIN_OPEN_HOLD_MS) {
                                 isMouthOpen = false
+                                Log.d(TAG, ">>> MOUTH CLOSED detected!")
                                 mainHandler.post { onMouthStateChanged(false) }
                             }
                         }
                     })
                 }
+
             imageAnalysisUseCase = analysis
 
             val cameraSelector = CameraSelector.Builder()
@@ -303,6 +240,7 @@ class FloatingCameraService : Service(), LifecycleOwner {
             try {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(this, cameraSelector, analysis)
+                Log.d(TAG, "Camera bound: Analysis only (no preview)")
             } catch (e: Exception) {
                 Log.e(TAG, "Camera bind failed", e)
             }
@@ -310,25 +248,42 @@ class FloatingCameraService : Service(), LifecycleOwner {
     }
 
     private fun onMouthStateChanged(isOpen: Boolean) {
-        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        Log.d(TAG, "=== onMouthStateChanged: isOpen=$isOpen ===")
         if (isOpen) {
-            // 警告テキストを設定して表示
             overlayBinding?.tvOverlayMessage?.setText(R.string.mouth_open_warning)
-            audioManager.dispatchMediaKeyEvent(
-                KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE)
-            )
-            audioManager.dispatchMediaKeyEvent(
-                KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE)
-            )
             overlayBinding?.root?.visibility = View.VISIBLE
+            pauseMedia()
         } else {
-            audioManager.dispatchMediaKeyEvent(
-                KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY)
-            )
-            audioManager.dispatchMediaKeyEvent(
-                KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY)
-            )
             overlayBinding?.root?.visibility = View.GONE
+            resumeMedia()
         }
+    }
+
+    private fun pauseMedia() {
+        audioFocusRequest?.let {
+            val result = audioManager.requestAudioFocus(it)
+            hasAudioFocus = result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+            Log.d(TAG, "requestAudioFocus: ${if (hasAudioFocus) "granted" else "denied"}")
+        }
+        sendMediaKey(KeyEvent.KEYCODE_MEDIA_PAUSE)
+    }
+
+    private fun resumeMedia() {
+        if (hasAudioFocus) {
+            audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
+            hasAudioFocus = false
+            Log.d(TAG, "abandonAudioFocus")
+        }
+        sendMediaKey(KeyEvent.KEYCODE_MEDIA_PLAY)
+    }
+
+    private fun sendMediaKey(keyCode: Int) {
+        val now = SystemClock.uptimeMillis()
+        audioManager.dispatchMediaKeyEvent(
+            KeyEvent(now, now, KeyEvent.ACTION_DOWN, keyCode, 0)
+        )
+        audioManager.dispatchMediaKeyEvent(
+            KeyEvent(now, now, KeyEvent.ACTION_UP, keyCode, 0)
+        )
     }
 }

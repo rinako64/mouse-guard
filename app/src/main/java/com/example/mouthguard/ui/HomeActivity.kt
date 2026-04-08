@@ -67,7 +67,13 @@ class HomeActivity : AppCompatActivity() {
         } else {
             startForegroundService(Intent(this, FloatingCameraService::class.java))
             Toast.makeText(this, R.string.service_started, Toast.LENGTH_SHORT).show()
-            updateButtons()
+            // サービス開始後、ホーム画面に強制遷移
+            val homeIntent = Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(homeIntent)
+            finish()
         }
     }
 

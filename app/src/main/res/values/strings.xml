@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">おくちとじてね</string>
+    <string name="app_icon_emoji">🐯</string>
     <string name="app_description">子どもが動画を見るとき、口が開いたら自動で一時停止します。\n\nYouTube Kidsなど、どのアプリでも使えます。</string>
     <string name="camera_permission_message">口の検知にカメラの使用許可が必要です</string>
     <string name="mouth_ratio_format">口開き比率: %.3f</string>
@@ -9,11 +10,13 @@
     <string name="no_face">顔が検出されません</string>
     <string name="camera_permission_denied">カメラの許可が必要です</string>
     <string name="mouth_open_warning">おくちとじてね！</string>
+    <string name="overlay_icon">🤐</string>
     <string name="initializing">カメラ準備中…</string>
     <string name="video_error">動画の再生に失敗しました</string>
     <string name="btn_start_monitoring">監視スタート</string>
     <string name="btn_stop_monitoring">監視ストップ</string>
-    <string name="instructions">① 「監視スタート」をタップ\n② このアプリを閉じてYouTube Kidsを開く\n③ 口が開いたら動画が止まります\n④ 口を閉じると動画が再開します</string>
+    <string name="how_to_use_title">📖 使い方</string>
+    <string name="instructions">① 「監視スタート」をタップ\n② YouTube Kidsなどで動画を再生\n③ 口が開くと動画が自動で一時停止\n④ 口を閉じると動画が再開します</string>
     <string name="overlay_permission_needed">「他のアプリの上に表示」の許可が必要です。設定画面で許可してください。</string>
     <string name="service_started">監視を開始しました</string>
     <string name="notification_text">口の開閉を監視しています</string>

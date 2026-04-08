@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="kids_pink">#FF6B9D</color>
+    <color name="kids_pink_dark">#E85588</color>
+    <color name="kids_yellow">#FFD93D</color>
+    <color name="kids_green">#6BCB77</color>
+    <color name="kids_green_dark">#4AA85B</color>
+    <color name="kids_blue">#4D96FF</color>
+    <color name="kids_orange">#FF8C42</color>
+    <color name="kids_purple">#B983FF</color>
+    <color name="kids_bg">#FFF8F0</color>
+    <color name="kids_white">#FFFFFF</color>
+    <color name="kids_text_dark">#4A3728</color>
+    <color name="overlay_bg">#DD000000</color>
+</resources>
