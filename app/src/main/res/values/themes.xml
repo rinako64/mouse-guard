@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MouthGuard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/kids_pink</item>
-        <item name="colorPrimaryVariant">@color/kids_pink_dark</item>
-        <item name="colorOnPrimary">@color/kids_white</item>
-        <item name="colorSecondary">@color/kids_green</item>
-        <item name="colorSecondaryVariant">@color/kids_green_dark</item>
-        <item name="colorOnSecondary">@color/kids_white</item>
-        <item name="android:windowBackground">@color/kids_bg</item>
-        <item name="android:statusBarColor">@color/kids_pink</item>
-    </style>
-
-    <style name="KidsButton" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">24dp</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:letterSpacing">0.05</item>
-    </style>
-
-    <style name="KidsButton.Start" parent="KidsButton">
-        <item name="backgroundTint">@color/kids_green</item>
-        <item name="android:textColor">@color/kids_white</item>
-    </style>
-
-    <style name="KidsButton.Stop" parent="KidsButton">
-        <item name="backgroundTint">@color/kids_orange</item>
-        <item name="android:textColor">@color/kids_white</item>
+    <style name="Theme.MouthGuard" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_pink</item>
+        <item name="colorPrimaryVariant">@color/btn_stop_pink_dark</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <item name="colorSecondary">@color/btn_start_green</item>
+        <item name="colorSecondaryVariant">@color/btn_start_green_dark</item>
+        <item name="colorOnSecondary">@color/text_white</item>
+        <item name="android:windowBackground">@color/bg_main</item>
+        <item name="android:statusBarColor">@color/bg_main</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

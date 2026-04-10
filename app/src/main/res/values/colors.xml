@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="kids_pink">#FF6B9D</color>
-    <color name="kids_pink_dark">#E85588</color>
-    <color name="kids_yellow">#FFD93D</color>
-    <color name="kids_green">#6BCB77</color>
-    <color name="kids_green_dark">#4AA85B</color>
-    <color name="kids_blue">#4D96FF</color>
-    <color name="kids_orange">#FF8C42</color>
-    <color name="kids_purple">#B983FF</color>
-    <color name="kids_bg">#FFF8F0</color>
-    <color name="kids_white">#FFFFFF</color>
-    <color name="kids_text_dark">#4A3728</color>
+    <!-- メインカラー -->
+    <color name="primary_pink">#D4687A</color>
+    <color name="primary_pink_light">#E8A0B0</color>
+    <color name="primary_pink_very_light">#F5D5DC</color>
+
+    <!-- ボタン -->
+    <color name="btn_start_green">#7BC8A4</color>
+    <color name="btn_start_green_dark">#5FB88E</color>
+    <color name="btn_stop_pink">#CC5C6F</color>
+    <color name="btn_stop_pink_dark">#B84A5D</color>
+
+    <!-- 背景 -->
+    <color name="bg_main">#FFF2ED</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="bg_record_card">#FFF8F5</color>
+
+    <!-- テキスト -->
+    <color name="text_dark">#3D2C2C</color>
+    <color name="text_gray">#9E8E8E</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- その他 -->
+    <color name="star_gold">#E8A040</color>
+    <color name="nav_active">#D4687A</color>
+    <color name="nav_inactive">#BBAAAA</color>
     <color name="overlay_bg">#DD000000</color>
+    <color name="kids_yellow">#FFD700</color>
+    <color name="step_circle_bg">#F5D5DC</color>
+    <color name="step_circle_text">#D4687A</color>
+    <color name="divider">#F0E0E0</color>
 </resources>

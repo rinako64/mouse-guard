@@ -6,17 +6,19 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mouthguard.R
-import com.example.mouthguard.databinding.ActivityHomeBinding
+import android.widget.LinearLayout
 import com.example.mouthguard.service.FloatingCameraService
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private lateinit var btnStart: LinearLayout
+    private lateinit var btnStop: LinearLayout
 
     private val requestCameraPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -30,11 +32,13 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_home)
 
-        binding.btnStart.setOnClickListener { checkAndStart() }
-        binding.btnStop.setOnClickListener {
+        btnStart = findViewById(R.id.btnStart)
+        btnStop = findViewById(R.id.btnStop)
+
+        btnStart.setOnClickListener { checkAndStart() }
+        btnStop.setOnClickListener {
             stopService(Intent(this, FloatingCameraService::class.java))
             updateButtons()
         }
@@ -79,7 +83,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun updateButtons() {
         val running = FloatingCameraService.isRunning
-        binding.btnStart.isEnabled = !running
-        binding.btnStop.isEnabled = running
+        btnStart.alpha = if (running) 0.5f else 1.0f
+        btnStart.isClickable = !running
+        btnStop.alpha = if (running) 1.0f else 0.5f
+        btnStop.isClickable = running
     }
 }
