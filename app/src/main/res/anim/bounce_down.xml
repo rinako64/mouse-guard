@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Phase 3: ゆっくり元に戻る -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+
+    <translate
+        android:fromYDelta="-6%"
+        android:toYDelta="0%"
+        android:duration="1400" />
+
+    <scale
+        android:fromXScale="0.98"
+        android:toXScale="1.0"
+        android:fromYScale="1.02"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="100%"
+        android:duration="1400" />
+</set>

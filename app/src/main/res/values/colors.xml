@@ -30,4 +30,5 @@
     <color name="step_circle_bg">#F5D5DC</color>
     <color name="step_circle_text">#D4687A</color>
     <color name="divider">#F0E0E0</color>
+    <color name="ic_launcher_background">#FFF2ED</color>
 </resources>

@@ -23,6 +23,7 @@
     <string name="step_1">「監視スタート」をタップ</string>
     <string name="step_2">YouTube Kidsなどで動画を再生</string>
     <string name="step_3">口が開くと動画が自動で一時停止し、閉じると再開します</string>
+    <string name="step_4">止めたい場合は「監視ストップ」を押す</string>
     <string name="instructions">① 「監視スタート」をタップ\n② YouTube Kidsなどで動画を再生\n③ 口が開くと動画が自動で一時停止\n④ 口を閉じると動画が再開します</string>
     <string name="overlay_permission_needed">「他のアプリの上に表示」の許可が必要です。設定画面で許可してください。</string>
     <string name="service_started">監視を開始しました</string>

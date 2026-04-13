@@ -8,30 +8,16 @@
     android:background="@color/bg_main">
 
     <!-- ヘッダー -->
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="20dp"
+        android:text="MouseGuard"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_pink"
+        android:textAlignment="center"
         android:paddingTop="12dp"
-        android:paddingBottom="8dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/mascot_octopus"
-            android:contentDescription="マスコット" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="MouseGuard"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary_pink" />
-    </LinearLayout>
+        android:paddingBottom="8dp" />
 
     <!-- スクロール可能コンテンツ -->
     <ScrollView
@@ -50,23 +36,13 @@
 
             <!-- キャラクター -->
             <ImageView
+                android:id="@+id/imgMascot"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/mascot_octopus"
                 android:contentDescription="マスコット"
                 android:layout_marginTop="16dp" />
-
-            <!-- アプリ名 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MouseGuard"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_pink"
-                android:textAlignment="center"
-                android:layout_marginTop="4dp" />
 
             <!-- サブタイトル -->
             <TextView
@@ -76,7 +52,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/text_dark"
                 android:textAlignment="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="2dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -108,17 +84,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🎥"
-                        android:textSize="28sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/btn_start_monitoring"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_white"
-                        android:layout_marginTop="4dp" />
+                        android:textColor="@color/text_white" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -143,17 +112,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="⏹️"
-                        android:textSize="28sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/btn_stop_monitoring"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_white"
-                        android:layout_marginTop="4dp" />
+                        android:textColor="@color/text_white" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -169,28 +131,14 @@
                 android:elevation="2dp">
 
                 <!-- タイトル行 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="❓"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/how_to_use_title"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_dark"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
+                    android:text="@string/how_to_use_title"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_dark"
+                    android:layout_marginBottom="16dp" />
 
                 <!-- ステップ1 -->
                 <LinearLayout
@@ -251,7 +199,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
 
                     <TextView
                         android:layout_width="28dp"
@@ -268,6 +217,33 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/step_3"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_dark"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+
+                <!-- ステップ4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_step_circle"
+                        android:text="4"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/step_circle_text"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/step_4"
                         android:textSize="14sp"
                         android:textColor="@color/text_dark"
                         android:layout_marginStart="12dp" />

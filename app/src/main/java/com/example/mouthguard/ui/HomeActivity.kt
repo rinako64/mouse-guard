@@ -7,12 +7,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mouthguard.R
 import android.widget.LinearLayout
+import com.example.mouthguard.ad.AdGate
 import com.example.mouthguard.service.FloatingCameraService
 
 class HomeActivity : AppCompatActivity() {
@@ -37,7 +41,16 @@ class HomeActivity : AppCompatActivity() {
         btnStart = findViewById(R.id.btnStart)
         btnStop = findViewById(R.id.btnStop)
 
-        btnStart.setOnClickListener { checkAndStart() }
+        // 広告の初期化
+        AdGate.init(this)
+
+        // マスコットのポヨンポヨンアニメーション（沈む→浮く→戻る のループ）
+        val imgMascot = findViewById<ImageView>(R.id.imgMascot)
+        startBounceLoop(imgMascot)
+
+        btnStart.setOnClickListener {
+            AdGate.showIfNeeded(this) { checkAndStart() }
+        }
         btnStop.setOnClickListener {
             stopService(Intent(this, FloatingCameraService::class.java))
             updateButtons()
@@ -79,6 +92,30 @@ class HomeActivity : AppCompatActivity() {
             startActivity(homeIntent)
             finish()
         }
+    }
+
+    private fun startBounceLoop(view: ImageView) {
+        val phase1 = AnimationUtils.loadAnimation(this, R.anim.bounce)       // 沈む
+        val phase2 = AnimationUtils.loadAnimation(this, R.anim.bounce_up)    // 浮く
+        val phase3 = AnimationUtils.loadAnimation(this, R.anim.bounce_down)  // 戻る
+
+        phase1.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(a: Animation?) {}
+            override fun onAnimationRepeat(a: Animation?) {}
+            override fun onAnimationEnd(a: Animation?) { view.startAnimation(phase2) }
+        })
+        phase2.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(a: Animation?) {}
+            override fun onAnimationRepeat(a: Animation?) {}
+            override fun onAnimationEnd(a: Animation?) { view.startAnimation(phase3) }
+        })
+        phase3.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(a: Animation?) {}
+            override fun onAnimationRepeat(a: Animation?) {}
+            override fun onAnimationEnd(a: Animation?) { view.startAnimation(phase1) }
+        })
+
+        view.startAnimation(phase1)
     }
 
     private fun updateButtons() {

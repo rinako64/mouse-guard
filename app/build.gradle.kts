@@ -15,6 +15,17 @@ android {
         versionName = "1.0"
     }
 
+    flavorDimensions += "adMode"
+    productFlavors {
+        create("adSupported") {
+            dimension = "adMode"
+            applicationIdSuffix = ".ad"
+        }
+        create("adFree") {
+            dimension = "adMode"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -55,4 +66,10 @@ dependencies {
 
     // Coroutines
     implementation(libs.coroutines.android)
+
+    // AdMob (adSupported flavor only)
+    "adSupportedImplementation"(libs.play.services.ads)
+
+    // Guava ListenableFuture (AdMob pulls a conflicting version)
+    implementation("com.google.guava:guava:32.1.3-android")
 }
