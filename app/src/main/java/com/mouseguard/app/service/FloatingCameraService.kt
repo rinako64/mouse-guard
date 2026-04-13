@@ -1,4 +1,4 @@
-package com.example.mouthguard.service
+package com.mouseguard.app.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -31,9 +31,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import com.example.mouthguard.R
-import com.example.mouthguard.databinding.LayoutFloatingOverlayBinding
-import com.example.mouthguard.detection.FaceAnalyzer
+import com.mouseguard.app.R
+import com.mouseguard.app.databinding.LayoutFloatingOverlayBinding
+import com.mouseguard.app.detection.FaceAnalyzer
 import java.util.concurrent.Executors
 
 class FloatingCameraService : Service(), LifecycleOwner {

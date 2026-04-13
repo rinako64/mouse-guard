@@ -1,14 +1,30 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
 
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) load(file.inputStream())
+}
+
 android {
-    namespace = "com.example.mouthguard"
+    namespace = "com.mouseguard.app"
     compileSdk = 34
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        }
+    }
+
     defaultConfig {
-        applicationId = "com.example.mouthguard"
+        applicationId = "com.mouseguard.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -28,6 +44,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

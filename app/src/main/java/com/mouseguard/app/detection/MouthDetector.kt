@@ -1,4 +1,4 @@
-package com.example.mouthguard.detection
+package com.mouseguard.app.detection
 
 import android.graphics.Rect
 import android.util.Log

@@ -1,4 +1,4 @@
-package com.example.mouthguard.ui
+package com.mouseguard.app.ui
 
 import android.Manifest
 import android.content.Intent
@@ -14,10 +14,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.mouthguard.R
+import com.mouseguard.app.R
 import android.widget.LinearLayout
-import com.example.mouthguard.ad.AdGate
-import com.example.mouthguard.service.FloatingCameraService
+import com.mouseguard.app.ad.AdGate
+import com.mouseguard.app.service.FloatingCameraService
 
 class HomeActivity : AppCompatActivity() {
 

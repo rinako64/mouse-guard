@@ -1,4 +1,4 @@
-package com.example.mouthguard.detection
+package com.mouseguard.app.detection
 
 import android.util.Log
 import androidx.camera.core.ExperimentalGetImage

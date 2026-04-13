@@ -1,4 +1,4 @@
-package com.example.mouthguard.ad
+package com.mouseguard.app.ad
 
 import android.app.Activity
 
