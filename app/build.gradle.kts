@@ -12,7 +12,7 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.mouseguard.app"
-    compileSdk = 34
+    compileSdk = 35
 
     signingConfigs {
         create("release") {
@@ -26,9 +26,12 @@ android {
     defaultConfig {
         applicationId = "com.mouseguard.app"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 1
+        targetSdk = 35
+        versionCode = 7
         versionName = "1.0"
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        }
     }
 
     flavorDimensions += "adMode"
