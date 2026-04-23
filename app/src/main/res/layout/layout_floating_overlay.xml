@@ -28,10 +28,10 @@
             android:layout_marginTop="16dp"
             android:text="@string/mouth_open_warning"
             android:textSize="40sp"
-            android:textColor="@color/kids_yellow"
+            android:textColor="@color/pastel_yellow"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/zen_maru_gothic"
             android:lineSpacingMultiplier="1.3" />
 
     </LinearLayout>

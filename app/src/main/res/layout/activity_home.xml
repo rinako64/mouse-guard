@@ -1,257 +1,410 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg_main">
+    android:background="@color/bg_main"
+    android:fitsSystemWindows="true">
 
-    <!-- ヘッダー -->
-    <TextView
+    <!-- コンテンツ（スクロール可能） -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="MouseGuard"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_pink"
-        android:textAlignment="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp" />
-
-    <!-- スクロール可能コンテンツ -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:fillViewport="true"
+        android:scrollbars="none"
+        android:clipChildren="false"
         android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="16dp">
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingBottom="140dp">
 
-            <!-- キャラクター -->
-            <ImageView
-                android:id="@+id/imgMascot"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/mascot_octopus"
-                android:contentDescription="マスコット"
-                android:layout_marginTop="16dp" />
-
-            <!-- サブタイトル -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_subtitle"
-                android:textSize="15sp"
-                android:textColor="@color/text_dark"
-                android:textAlignment="center"
-                android:layout_marginTop="2dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_subtitle2"
-                android:textSize="12sp"
-                android:textColor="@color/text_gray"
-                android:textAlignment="center"
-                android:layout_marginTop="2dp" />
-
-            <!-- 監視スタートボタン -->
+            <!-- ======= App Bar (3-col grid, logo 中央 / menu 右) ======= -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:paddingHorizontal="22dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp"
+                android:elevation="12dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/home_logo_text"
+                    android:textSize="30sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="900"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    android:includeFontPadding="false" />
+
+                <FrameLayout
+                    android:id="@+id/btnMenu"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@drawable/bg_menu_btn"
+                    android:stateListAnimator="@animator/btn_scale_press"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_menu"
+                        android:contentDescription="メニュー" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <!-- ======= Hero: 上にマイナスマージンで食い込む ======= -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="520dp"
+                android:layout_marginTop="-110dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- 黄ブロブ（左、マスコット後ろ） -->
+                <ImageView
+                    android:layout_width="270dp"
+                    android:layout_height="310dp"
+                    android:layout_marginStart="-55dp"
+                    android:layout_marginTop="110dp"
+                    android:src="@drawable/blob_yellow"
+                    android:contentDescription="@null" />
+
+                <!-- ミントブロブ（右上、rotate -6） -->
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="-55dp"
+                    android:layout_marginTop="20dp"
+                    android:rotation="-6"
+                    android:src="@drawable/blob_mint"
+                    android:contentDescription="@null" />
+
+                <!-- ピンクブロブ（右中央〜下、rotate -4） -->
+                <ImageView
+                    android:layout_width="195dp"
+                    android:layout_height="230dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="-55dp"
+                    android:layout_marginTop="225dp"
+                    android:rotation="-4"
+                    android:src="@drawable/blob_pink"
+                    android:contentDescription="@null" />
+
+                <!-- 青ブロブ（左下、rotate -8） -->
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_height="160dp"
+                    android:layout_marginStart="-65dp"
+                    android:layout_marginTop="420dp"
+                    android:rotation="-8"
+                    android:src="@drawable/blob_blue"
+                    android:contentDescription="@null" />
+
+                <!-- ぽかろ（幅260dp、中央やや左） -->
+                <ImageView
+                    android:id="@+id/imgMascot"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="140dp"
+                    android:translationX="-5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/mascot_pokaro"
+                    android:contentDescription="ぽかろ"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <!-- 見守り待機中ピル（hero 内 top:380） -->
+                <LinearLayout
+                    android:id="@+id/statusPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="380dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_status_pill"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:elevation="2dp">
+
+                    <View
+                        android:id="@+id/statusDot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_mint_dot" />
+
+                    <TextView
+                        android:id="@+id/tvStatusLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_status_standby"
+                        android:textSize="12sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- ======= Copy（heroに食い込む） ======= -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="-80dp"
+                android:paddingHorizontal="28dp"
+                android:paddingTop="40dp"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_title"
+                    android:textSize="26sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="800"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:lineSpacingMultiplier="1.45"
+                    android:letterSpacing="0.01" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_subtitle"
+                    android:textSize="13sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textAlignment="center"
+                    android:lineSpacingMultiplier="1.7"
+                    android:layout_marginTop="10dp" />
+            </LinearLayout>
+
+            <!-- ======= CTAs ======= -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="14dp"
+                android:paddingHorizontal="22dp">
+
+                <!-- Primary: 監視をスタート（センターラベル、黄丸アイコンなし） -->
                 <LinearLayout
                     android:id="@+id/btnStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_btn_start"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:paddingVertical="24dp"
+                    android:background="@drawable/bg_btn_primary"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="18dp"
+                    android:elevation="8dp"
+                    android:stateListAnimator="@animator/btn_scale_press"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:elevation="4dp">
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/btn_start_monitoring"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_white" />
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btn_start_monitoring_sub"
+                        android:textSize="11sp"
+                        android:textColor="#B3FFFFFF"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:layout_marginTop="2dp" />
                 </LinearLayout>
-            </FrameLayout>
 
-            <!-- 監視ストップボタン -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
-
+                <!-- Secondary: 監視をストップ -->
                 <LinearLayout
                     android:id="@+id/btnStop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_btn_stop"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:paddingVertical="24dp"
+                    android:background="@drawable/bg_btn_secondary"
+                    android:paddingVertical="14dp"
+                    android:layout_marginTop="10dp"
+                    android:stateListAnimator="@animator/btn_scale_press"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:elevation="4dp">
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/btn_stop_monitoring"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_white" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <!-- 使い方カード -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_card"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp">
-
-                <!-- タイトル行 -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/how_to_use_title"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_dark"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- ステップ1 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="14dp">
-
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_step_circle"
-                        android:text="1"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/step_circle_text"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/step_1"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_dark"
-                        android:layout_marginStart="12dp" />
-                </LinearLayout>
-
-                <!-- ステップ2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="14dp">
-
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_step_circle"
-                        android:text="2"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/step_circle_text"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/step_2"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_dark"
-                        android:layout_marginStart="12dp" />
-                </LinearLayout>
-
-                <!-- ステップ3 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="14dp">
-
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_step_circle"
-                        android:text="3"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/step_circle_text"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/step_3"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_dark"
-                        android:layout_marginStart="12dp" />
-                </LinearLayout>
-
-                <!-- ステップ4 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_step_circle"
-                        android:text="4"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/step_circle_text"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/step_4"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_dark"
-                        android:layout_marginStart="12dp" />
+                        android:textSize="15sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
+    <!-- ======= Bottom Tab Bar (floating) ======= -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_tab_nav"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:elevation="8dp">
 
-</LinearLayout>
+        <!-- ホーム（アクティブ） -->
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_home"
+                android:contentDescription="ホーム" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_home"
+                android:textSize="10sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_tab_active_dot" />
+        </LinearLayout>
+
+        <!-- レポート -->
+        <LinearLayout
+            android:id="@+id/tabReport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_report"
+                android:contentDescription="レポート" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_report"
+                android:textSize="10sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <!-- ガイド -->
+        <LinearLayout
+            android:id="@+id/tabGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_guide"
+                android:contentDescription="ガイド" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_guide"
+                android:textSize="10sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <!-- 設定 -->
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_settings"
+                android:contentDescription="設定" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_settings"
+                android:textSize="10sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

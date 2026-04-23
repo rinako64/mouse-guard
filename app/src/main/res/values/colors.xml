@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- メインカラー -->
-    <color name="primary_pink">#D4687A</color>
-    <color name="primary_pink_light">#E8A0B0</color>
-    <color name="primary_pink_very_light">#F5D5DC</color>
-
-    <!-- ボタン -->
-    <color name="btn_start_green">#7BC8A4</color>
-    <color name="btn_start_green_dark">#5FB88E</color>
-    <color name="btn_stop_pink">#CC5C6F</color>
-    <color name="btn_stop_pink_dark">#B84A5D</color>
-
-    <!-- 背景 -->
-    <color name="bg_main">#FFF2ED</color>
+    <!-- 新デザインパレット（Claude Design handoff より） -->
+    <color name="bg_main">#F7F3EF</color>
+    <color name="ink">#111111</color>
+    <color name="ink_sub">#8E7777</color>
+    <color name="line">#1C111111</color>
     <color name="bg_card">#FFFFFF</color>
-    <color name="bg_record_card">#FFF8F5</color>
 
-    <!-- テキスト -->
-    <color name="text_dark">#3D2C2C</color>
-    <color name="text_gray">#9E8E8E</color>
+    <!-- ブロブ用パステル（v2 Claude Design handoff） -->
+    <color name="pastel_yellow">#FCE3A1</color>
+    <color name="pastel_pink">#FBB8C3</color>
+    <color name="pastel_mint">#BEE2D0</color>
+    <color name="pastel_blue">#ADD2FB</color>
+
+    <!-- ヒートマップ用（将来のレポート画面で使用） -->
+    <color name="heat_1">#FFE0E6</color>
+    <color name="heat_2">#FFB5C1</color>
+    <color name="heat_3">#FF9BAA</color>
+    <color name="heat_4">#FF7F92</color>
+
+    <!-- 互換性のため残す（既存コード参照） -->
+    <color name="primary_pink">#111111</color>
+    <color name="text_dark">#111111</color>
+    <color name="text_gray">#8E7777</color>
     <color name="text_white">#FFFFFF</color>
-
-    <!-- その他 -->
-    <color name="star_gold">#E8A040</color>
-    <color name="nav_active">#D4687A</color>
-    <color name="nav_inactive">#BBAAAA</color>
     <color name="overlay_bg">#DD000000</color>
-    <color name="kids_yellow">#FFD700</color>
-    <color name="step_circle_bg">#F5D5DC</color>
-    <color name="step_circle_text">#D4687A</color>
-    <color name="divider">#F0E0E0</color>
-    <color name="ic_launcher_background">#FFF2ED</color>
+    <color name="step_circle_bg">#FFE59A</color>
+    <color name="step_circle_text">#111111</color>
+    <color name="ic_launcher_background">#F7F3EF</color>
 </resources>
