@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fitsSystemWindows="true">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="140dp">
+
+            <!-- ===== App Bar ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="6dp">
+
+                <FrameLayout
+                    android:id="@+id/btnBack"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/bg_back_btn"
+                    android:elevation="2dp"
+                    android:stateListAnimator="@animator/btn_scale_press"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_back"
+                        android:contentDescription="戻る" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/report_title"
+                    android:textSize="22sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="900"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    android:textAlignment="center"
+                    android:includeFontPadding="false" />
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_week_label"
+                    android:textSize="12sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:textAlignment="viewEnd"
+                    android:maxLines="2" />
+            </LinearLayout>
+
+            <!-- ===== Segmented control ===== -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_seg"
+                android:padding="4dp"
+                android:elevation="1dp">
+
+                <TextView
+                    android:id="@+id/segToday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seg_today"
+                    android:textSize="14sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="22dp"
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/segWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seg_week"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_seg_on"
+                    android:paddingHorizontal="22dp"
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/segMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seg_month"
+                    android:textSize="14sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="22dp"
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+
+            <!-- ===== Main metric card ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:padding="18dp"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="22dp"
+                android:elevation="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_total_this_week"
+                    android:textSize="12sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14"
+                        android:textSize="40sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:letterSpacing="-0.02"
+                        android:includeFontPadding="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_count_unit"
+                        android:textSize="14sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:layout_marginStart="4dp"
+                        android:includeFontPadding="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_vs_last_week"
+                        android:textSize="13sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_chip_mint"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_monitor_time"
+                    android:textSize="12sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:layout_marginTop="12dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        android:textSize="22sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_hour_unit"
+                        android:textSize="13sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:layout_marginStart="4dp"
+                        android:includeFontPadding="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12"
+                        android:textSize="22sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:includeFontPadding="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_minute_unit"
+                        android:textSize="13sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:layout_marginStart="4dp"
+                        android:includeFontPadding="false" />
+                </LinearLayout>
+
+                <!-- ===== Bar chart ===== -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="14dp">
+
+                    <!-- Grid lines (5 evenly spaced) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="30dp"
+                        android:weightSum="4">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_chart_grid_line" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_chart_grid_line" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_chart_grid_line" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_chart_grid_line" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_chart_grid_line" />
+                    </LinearLayout>
+
+                    <!-- Bars (bottom-aligned, 8 columns) -->
+                    <LinearLayout
+                        android:id="@+id/chartBars"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="bottom"
+                        android:weightSum="8" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_chart_x_axis"
+                    android:textSize="11sp"
+                    android:textColor="#73111111"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <!-- ===== Two tint cards (連続記録 / 最長おくちキープ) ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_tint_yellow"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_streak_label"
+                        android:textSize="12sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textSize="52sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:letterSpacing="-0.02"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/report_streak_days"
+                            android:textSize="15sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:layout_marginStart="6dp"
+                            android:paddingBottom="6dp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_tint_blue"
+                    android:padding="14dp"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/report_longest_keep_label"
+                        android:textSize="12sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textSize="40sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:letterSpacing="-0.02"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="h"
+                            android:textSize="15sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:layout_marginStart="2dp"
+                            android:paddingBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="38"
+                            android:textSize="40sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:letterSpacing="-0.02"
+                            android:layout_marginStart="6dp"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="m"
+                            android:textSize="15sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:layout_marginStart="2dp"
+                            android:paddingBottom="6dp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- ===== Pokaro message ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_pokaro_msg"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp"
+                android:padding="14dp"
+                android:elevation="1dp">
+
+                <ImageView
+                    android:layout_width="54dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/mascot_pokaro"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/report_pokaro_msg"
+                    android:textSize="13.5sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textStyle="bold"
+                    android:lineSpacingMultiplier="1.6"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== Bottom Tab Bar ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_tab_nav"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_home"
+                android:contentDescription="ホーム" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_home"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabReport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_report"
+                android:contentDescription="レポート" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_report"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_tab_active_dot" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_guide"
+                android:contentDescription="ガイド" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_guide"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_settings"
+                android:contentDescription="設定" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_settings"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

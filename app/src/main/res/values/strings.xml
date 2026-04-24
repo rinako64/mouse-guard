@@ -31,6 +31,82 @@
     <string name="tab_guide">ガイド</string>
     <string name="tab_settings">設定</string>
 
+    <!-- レポート画面 -->
+    <string name="report_title">レポート</string>
+    <string name="report_week_label">4月 第4週</string>
+    <string name="seg_today">今日</string>
+    <string name="seg_week">週</string>
+    <string name="seg_month">月</string>
+    <string name="report_total_this_week">今週のお口ぽかん合計</string>
+    <string name="report_count_unit">回</string>
+    <string name="report_vs_last_week">先週より 30%% 減</string>
+    <string name="report_monitor_time">見守り時間</string>
+    <string name="report_hour_unit">時間</string>
+    <string name="report_minute_unit">分</string>
+    <string name="report_chart_x_axis">時刻（時）</string>
+    <string name="report_streak_label">連続記録</string>
+    <string name="report_streak_days">日連続</string>
+    <string name="report_longest_keep_label">最長おくちキープ</string>
+    <string name="report_pokaro_msg">今週もよく頑張ったね！\n来週はもっといい記録がでるかも 🌱</string>
+
+    <!-- ガイド画面 -->
+    <string name="guide_title">使い方ガイド</string>
+    <string name="guide_hero_title">はじめての\n4ステップ</string>
+    <string name="guide_hero_subtitle">Mouse Guard をはじめる前に、\n簡単なセットアップをしましょう。</string>
+
+    <string name="step_01_label">STEP 01</string>
+    <string name="step_01_title">カメラの使用を許可する</string>
+    <string name="step_01_body">はじめて「監視をスタート」をタップすると、カメラの使用を聞かれます。口の開閉を見分けるためにフロントカメラを使うので、「許可」を選んでください。</string>
+
+    <string name="step_02_label">STEP 02</string>
+    <string name="step_02_title">画面の上に重ねる権限をオン</string>
+    <string name="step_02_body">動画アプリの上に「おくちとじてね」の合図を出すため、「他のアプリの上に表示」の許可が必要です。設定画面が開いたら Mouse Guard のスイッチをオンにして戻ってきてください。</string>
+
+    <string name="step_03_label">STEP 03</string>
+    <string name="step_03_title">カメラの正面にお顔を映す</string>
+    <string name="step_03_body">スマホを机やスタンドに立てかけ、フロントカメラから 30〜60cm の正面にお子さまのお顔が映るように置きます。明るい場所で、真正面から見える角度がいちばん見つけやすくなります。</string>
+
+    <string name="step_04_label">STEP 04</string>
+    <string name="step_04_title">動画を再生する</string>
+    <string name="step_04_body">YouTube Kids などの動画アプリを開いて、ふだん通り再生スタート。お口がぽかんと開くと自動で動画が止まり、閉じるとまた再生されます。</string>
+
+    <string name="ts_section_title">うまく映らないときは</string>
+    <string name="ts_q1">お顔が認識されないとき</string>
+    <string name="ts_a1">・部屋を明るくしてみる\n・カメラのレンズをそっと拭いてみる\n・お顔がフレームの真ん中にまっすぐ映っているか確認する\n・マスクやマフラーで口元が隠れていないか確認する</string>
+    <string name="ts_q2">口を開けても反応しないとき</string>
+    <string name="ts_a2">・歯のすき間が見えるくらいしっかり開けてみる\n・ちょっとした笑顔やあくびで止まらないよう、ぽかんは3秒以上続けて初めて検知されます\n・カメラから離れすぎていないか確認する（目安：30〜60cm）</string>
+    <string name="ts_q3">口を閉じても動画が再開しないとき</string>
+    <string name="ts_a3">・動画アプリが「一時停止・再生」の操作に対応している必要があります（YouTube / YouTube Kids / YouTube Music は対応確認済み）\n・ライブ配信や一部の動画アプリでは自動で再開されないことがあります</string>
+    <string name="ts_q4">監視を止めたいとき</string>
+    <string name="ts_a4">・ホーム画面の「監視をストップ」、または通知バーの「停止」からいつでも止められます</string>
+    <string name="ts_q5">通知が消せないとき</string>
+    <string name="ts_a5">・見守り中はAndroidの仕様で通知が常に表示されます。監視をストップすれば自動で消えます</string>
+
+    <string name="notes_section_title">知っておいてほしいこと</string>
+    <string name="notes_body">・フロントカメラ付きの端末でのみ動作します\n・見守り中はフロントカメラを使うため、バッテリー消費がいつもより少し増えます\n・映像はすべてスマホの中で処理され、録画・送信は一切行いません</string>
+
+    <!-- 設定画面 -->
+    <string name="settings_title">設定</string>
+
+    <string name="settings_section_sensitivity">検知感度</string>
+    <string name="sensitivity_loose">ゆるめ</string>
+    <string name="sensitivity_normal">ふつう</string>
+    <string name="sensitivity_strict">きびしめ</string>
+    <string name="sensitivity_desc">「きびしめ」にすると少しの口の開きでも反応します。誤検知が多いときは「ゆるめ」を選んでください。</string>
+
+    <string name="settings_section_permissions">権限の状態</string>
+    <string name="perm_camera">カメラ</string>
+    <string name="perm_overlay">他のアプリの上に表示</string>
+    <string name="perm_badge_ok">許可済み</string>
+    <string name="perm_badge_ng">未許可</string>
+    <string name="perm_note">権限が未許可だと、監視が開始できません。タップで OS の設定画面を開きます。</string>
+
+    <string name="settings_section_about">アプリについて</string>
+    <string name="about_version">バージョン</string>
+    <string name="about_privacy">プライバシーポリシー</string>
+    <string name="privacy_policy_url" translatable="false"></string>
+    <string name="privacy_url_not_configured">プライバシーポリシーのURLが設定されていません</string>
+
     <!-- 旧互換 -->
     <string name="app_subtitle">お口を閉じて楽しく見よう！</string>
     <string name="app_subtitle2">YouTube Kidsなど、どのアプリでも使えます</string>

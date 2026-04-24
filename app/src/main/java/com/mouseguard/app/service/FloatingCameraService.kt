@@ -34,6 +34,7 @@ import androidx.lifecycle.LifecycleRegistry
 import com.mouseguard.app.R
 import com.mouseguard.app.databinding.LayoutFloatingOverlayBinding
 import com.mouseguard.app.detection.FaceAnalyzer
+import com.mouseguard.app.settings.SettingsStore
 import java.util.concurrent.Executors
 
 class FloatingCameraService : Service(), LifecycleOwner {
@@ -76,7 +77,9 @@ class FloatingCameraService : Service(), LifecycleOwner {
     private var consecutiveOpenCount = 0
     private val OPEN_DEBOUNCE = 2
     private val CLOSE_DEBOUNCE = 8
-    private val MIN_OPEN_HOLD_MS = 3000L
+    private var minOpenHoldMs = 3000L
+    private var thresholdAvg = 0.08f
+    private var thresholdMax = 0.10f
 
     // --- オーディオフォーカス ---
     private lateinit var audioManager: AudioManager
@@ -106,6 +109,12 @@ class FloatingCameraService : Service(), LifecycleOwner {
             )
             .setOnAudioFocusChangeListener { }
             .build()
+
+        val sensitivity = SettingsStore.getSensitivity(this)
+        thresholdAvg = sensitivity.thresholdAvg
+        thresholdMax = sensitivity.thresholdMax
+        minOpenHoldMs = sensitivity.minOpenHoldMs
+        Log.d(TAG, "Sensitivity=${sensitivity.name} avg=$thresholdAvg max=$thresholdMax holdMs=$minOpenHoldMs")
 
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, buildNotification())
@@ -196,7 +205,7 @@ class FloatingCameraService : Service(), LifecycleOwner {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also { a ->
-                    a.setAnalyzer(cameraExecutor, FaceAnalyzer { result ->
+                    a.setAnalyzer(cameraExecutor, FaceAnalyzer(thresholdAvg, thresholdMax) { result ->
                         val now = System.currentTimeMillis()
 
                         if (result == null) {
@@ -222,7 +231,7 @@ class FloatingCameraService : Service(), LifecycleOwner {
                             consecutiveClosedCount++
                             if (isMouthOpen
                                 && consecutiveClosedCount >= CLOSE_DEBOUNCE
-                                && now - mouthOpenSince >= MIN_OPEN_HOLD_MS) {
+                                && now - mouthOpenSince >= minOpenHoldMs) {
                                 isMouthOpen = false
                                 Log.d(TAG, ">>> MOUTH CLOSED detected!")
                                 mainHandler.post { onMouthStateChanged(false) }

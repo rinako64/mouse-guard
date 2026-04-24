@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="5dp">
+
+    <View
+        android:id="@+id/badgeDot"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/bg_ok_dot" />
+
+    <TextView
+        android:id="@+id/badgeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/perm_badge_ok"
+        android:textSize="13sp"
+        android:textColor="@color/ink"
+        android:fontFamily="@font/zen_maru_gothic"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/badgeChevron"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/ic_chevron_right"
+        android:layout_marginStart="4dp"
+        android:contentDescription="@null"
+        android:visibility="gone" />
+</LinearLayout>

@@ -3,7 +3,7 @@
     <!-- 新デザインパレット（Claude Design handoff より） -->
     <color name="bg_main">#F7F3EF</color>
     <color name="ink">#111111</color>
-    <color name="ink_sub">#8E7777</color>
+    <color name="ink_sub">#B3111111</color>
     <color name="line">#1C111111</color>
     <color name="bg_card">#FFFFFF</color>
 

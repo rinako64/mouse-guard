@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fitsSystemWindows="true">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="140dp">
+
+            <!-- ===== App Bar ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="6dp">
+
+                <FrameLayout
+                    android:id="@+id/btnBack"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/bg_back_btn"
+                    android:elevation="2dp"
+                    android:stateListAnimator="@animator/btn_scale_press"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_back"
+                        android:contentDescription="戻る" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_title"
+                    android:textSize="22sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="900"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    android:textAlignment="center"
+                    android:includeFontPadding="false" />
+
+                <Space
+                    android:layout_width="38dp"
+                    android:layout_height="38dp" />
+            </LinearLayout>
+
+            <!-- ===== 検知感度 ===== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_section_sensitivity"
+                android:textSize="12sp"
+                android:textColor="@color/ink_sub"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:layout_marginHorizontal="22dp"
+                android:padding="20dp"
+                android:elevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_seg"
+                    android:padding="4dp"
+                    android:elevation="1dp">
+
+                    <TextView
+                        android:id="@+id/segLoose"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sensitivity_loose"
+                        android:textSize="14sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:paddingVertical="8dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <TextView
+                        android:id="@+id/segNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sensitivity_normal"
+                        android:textSize="14sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:paddingVertical="8dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <TextView
+                        android:id="@+id/segStrict"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sensitivity_strict"
+                        android:textSize="14sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:paddingVertical="8dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sensitivity_desc"
+                    android:textSize="13.5sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:lineSpacingMultiplier="1.7"
+                    android:layout_marginTop="14dp" />
+            </LinearLayout>
+
+            <!-- ===== 権限の状態 ===== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_section_permissions"
+                android:textSize="12sp"
+                android:textColor="@color/ink_sub"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:layout_marginHorizontal="22dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="6dp"
+                android:elevation="1dp">
+
+                <!-- Row: カメラ -->
+                <LinearLayout
+                    android:id="@+id/rowPermCamera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="14dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/perm_camera"
+                        android:textSize="15sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <include
+                        android:id="@+id/badgePermCamera"
+                        layout="@layout/view_perm_badge" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#14111111" />
+
+                <!-- Row: 他のアプリの上に表示 -->
+                <LinearLayout
+                    android:id="@+id/rowPermOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="14dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/perm_overlay"
+                        android:textSize="15sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <include
+                        android:id="@+id/badgePermOverlay"
+                        layout="@layout/view_perm_badge" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/perm_note"
+                android:textSize="12sp"
+                android:textColor="@color/ink_sub"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:lineSpacingMultiplier="1.7"
+                android:paddingHorizontal="28dp"
+                android:paddingTop="10dp" />
+
+            <!-- ===== アプリについて ===== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_section_about"
+                android:textSize="12sp"
+                android:textColor="@color/ink_sub"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:layout_marginHorizontal="22dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="6dp"
+                android:elevation="1dp">
+
+                <!-- バージョン -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/about_version"
+                        android:textSize="15sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvVersion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.0"
+                        android:textSize="15sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#14111111" />
+
+                <!-- プライバシーポリシー -->
+                <LinearLayout
+                    android:id="@+id/rowPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="14dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/about_privacy"
+                        android:textSize="15sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/ic_chevron_right"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== Bottom Tab Bar ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_tab_nav"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_home"
+                android:contentDescription="ホーム" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_home"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabReport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_report"
+                android:contentDescription="レポート" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_report"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_guide"
+                android:contentDescription="ガイド" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_guide"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_settings"
+                android:contentDescription="設定" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_settings"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_tab_active_dot" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

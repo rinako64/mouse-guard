@@ -13,15 +13,12 @@ data class MouthDetectionResult(
     val faceRect: Rect
 )
 
-class MouthDetector {
+class MouthDetector(
+    private val thresholdAvg: Float = 0.08f,
+    private val thresholdMax: Float = 0.10f,
+) {
     companion object {
         private const val TAG = "MouthGuard"
-        // 口幅に対する唇隙間の比率で判定
-        // 閉じた口: ratio ≈ 0.00〜0.03（唇が接触、隙間ほぼゼロ）
-        // お口ぽかん: ratio ≈ 0.04〜0.08（軽く開いている）
-        // 大きく開いた口: ratio ≈ 0.10+（明確な隙間）
-        private const val THRESHOLD_AVG = 0.08f   // 平均ギャップの閾値
-        private const val THRESHOLD_MAX = 0.10f   // 最大ギャップの閾値（片側だけ開いているケース）
     }
 
     fun detect(face: Face): MouthDetectionResult? {
@@ -53,7 +50,7 @@ class MouthDetector {
         val maxRatio = maxGap / mouthWidth
 
         // 平均ギャップ OR 最大ギャップのどちらかが閾値を超えたら「開いている」
-        val isOpen = avgRatio > THRESHOLD_AVG || maxRatio > THRESHOLD_MAX
+        val isOpen = avgRatio > thresholdAvg || maxRatio > thresholdMax
         Log.d(TAG, "avgGap=${"%.1f".format(avgGap)} maxGap=${"%.1f".format(maxGap)} w=${"%.1f".format(mouthWidth)} avgR=${"%.3f".format(avgRatio)} maxR=${"%.3f".format(maxRatio)} open=$isOpen")
 
         return MouthDetectionResult(

@@ -9,7 +9,9 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
 class FaceAnalyzer(
-    private val onResult: (MouthDetectionResult?) -> Unit
+    thresholdAvg: Float = 0.08f,
+    thresholdMax: Float = 0.10f,
+    private val onResult: (MouthDetectionResult?) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
     companion object {
@@ -26,7 +28,7 @@ class FaceAnalyzer(
             .build()
     )
 
-    private val mouthDetector = MouthDetector()
+    private val mouthDetector = MouthDetector(thresholdAvg, thresholdMax)
     private var lastAnalyzedTimestamp = 0L
 
     @ExperimentalGetImage

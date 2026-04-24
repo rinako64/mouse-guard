@@ -59,14 +59,14 @@ class HomeActivity : AppCompatActivity() {
             updateStatusPill()
         }
 
-        listOf(
-            R.id.tabReport to "レポート画面はまもなく公開予定です",
-            R.id.tabGuide to "ガイド画面はまもなく公開予定です",
-            R.id.tabSettings to "設定画面はまもなく公開予定です",
-        ).forEach { (id, msg) ->
-            findViewById<LinearLayout>(id).setOnClickListener {
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-            }
+        findViewById<LinearLayout>(R.id.tabReport).setOnClickListener {
+            startActivity(Intent(this, ReportActivity::class.java))
+        }
+        findViewById<LinearLayout>(R.id.tabGuide).setOnClickListener {
+            startActivity(Intent(this, GuideActivity::class.java))
+        }
+        findViewById<LinearLayout>(R.id.tabSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         findViewById<FrameLayout>(R.id.btnMenu).setOnClickListener {

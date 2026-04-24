@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fitsSystemWindows="true">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="140dp">
+
+            <!-- ===== App Bar ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="6dp">
+
+                <FrameLayout
+                    android:id="@+id/btnBack"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/bg_back_btn"
+                    android:elevation="2dp"
+                    android:stateListAnimator="@animator/btn_scale_press"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_back"
+                        android:contentDescription="戻る" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/guide_title"
+                    android:textSize="22sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="900"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    android:textAlignment="center"
+                    android:includeFontPadding="false" />
+
+                <Space
+                    android:layout_width="38dp"
+                    android:layout_height="38dp" />
+            </LinearLayout>
+
+            <!-- ===== Hero ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/guide_hero_title"
+                    android:textSize="28sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="800"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:lineSpacingMultiplier="0.95" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/guide_hero_subtitle"
+                    android:textSize="13sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textAlignment="center"
+                    android:lineSpacingMultiplier="1.7"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <!-- ===== Steps ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="18dp">
+
+                <!-- STEP 01 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="20dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:elevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_01_label"
+                            android:textSize="12sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_01_title"
+                            android:textSize="17sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:lineSpacingMultiplier="1.4"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_01_body"
+                            android:textSize="13sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:lineSpacingMultiplier="1.8"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="-12dp"
+                        android:layout_marginEnd="-12dp"
+                        android:background="@drawable/bg_step_badge"
+                        android:backgroundTint="@color/pastel_yellow"
+                        android:text="1"
+                        android:textSize="18sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- STEP 02 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="20dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:elevation="1dp"
+                    android:layout_marginTop="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_02_label"
+                            android:textSize="12sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_02_title"
+                            android:textSize="17sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:lineSpacingMultiplier="1.4"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_02_body"
+                            android:textSize="13sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:lineSpacingMultiplier="1.8"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="-12dp"
+                        android:layout_marginEnd="-12dp"
+                        android:background="@drawable/bg_step_badge"
+                        android:backgroundTint="@color/pastel_pink"
+                        android:text="2"
+                        android:textSize="18sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- STEP 03 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="20dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:elevation="1dp"
+                    android:layout_marginTop="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_03_label"
+                            android:textSize="12sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_03_title"
+                            android:textSize="17sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:lineSpacingMultiplier="1.4"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_03_body"
+                            android:textSize="13sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:lineSpacingMultiplier="1.8"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="-12dp"
+                        android:layout_marginEnd="-12dp"
+                        android:background="@drawable/bg_step_badge"
+                        android:backgroundTint="@color/pastel_mint"
+                        android:text="3"
+                        android:textSize="18sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- STEP 04 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="20dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:elevation="1dp"
+                    android:layout_marginTop="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_04_label"
+                            android:textSize="12sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_04_title"
+                            android:textSize="17sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textFontWeight="800"
+                            android:textStyle="bold"
+                            android:lineSpacingMultiplier="1.4"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/step_04_body"
+                            android:textSize="13sp"
+                            android:textColor="@color/ink_sub"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:lineSpacingMultiplier="1.8"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="-12dp"
+                        android:layout_marginEnd="-12dp"
+                        android:background="@drawable/bg_step_badge"
+                        android:backgroundTint="@color/pastel_blue"
+                        android:text="4"
+                        android:textSize="18sp"
+                        android:textColor="@color/ink"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:textFontWeight="800"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- ===== Troubleshooting section ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_ts_section"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="22dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="22dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ts_section_title"
+                    android:textSize="17sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="800"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- FAQ card 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_ts_card"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="16dp"
+                    android:elevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_faq_dot"
+                            android:backgroundTint="@color/pastel_yellow"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ts_q1"
+                            android:textSize="14sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_a1"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8"
+                        android:layout_marginTop="6dp" />
+                </LinearLayout>
+
+                <!-- FAQ card 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_ts_card"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="16dp"
+                    android:elevation="1dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_faq_dot"
+                            android:backgroundTint="@color/pastel_pink"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ts_q2"
+                            android:textSize="14sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_a2"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8"
+                        android:layout_marginTop="6dp" />
+                </LinearLayout>
+
+                <!-- FAQ card 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_ts_card"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="16dp"
+                    android:elevation="1dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_faq_dot"
+                            android:backgroundTint="@color/pastel_mint"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ts_q3"
+                            android:textSize="14sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_a3"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8"
+                        android:layout_marginTop="6dp" />
+                </LinearLayout>
+
+                <!-- FAQ card 4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_ts_card"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="16dp"
+                    android:elevation="1dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_faq_dot"
+                            android:backgroundTint="@color/pastel_blue"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ts_q4"
+                            android:textSize="14sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_a4"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8"
+                        android:layout_marginTop="6dp" />
+                </LinearLayout>
+
+                <!-- FAQ card 5 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_ts_card"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="16dp"
+                    android:elevation="1dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_faq_dot"
+                            android:backgroundTint="#33111111"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ts_q5"
+                            android:textSize="14sp"
+                            android:textColor="@color/ink"
+                            android:fontFamily="@font/zen_maru_gothic"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_a5"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8"
+                        android:layout_marginTop="6dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ===== Notes section ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notes_section_title"
+                    android:textSize="17sp"
+                    android:textColor="@color/ink"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:textFontWeight="800"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_note_card"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notes_body"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/ink_sub"
+                        android:fontFamily="@font/zen_maru_gothic"
+                        android:lineSpacingMultiplier="1.8" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== Bottom Tab Bar ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_tab_nav"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_home"
+                android:contentDescription="ホーム" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_home"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabReport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_report"
+                android:contentDescription="レポート" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_report"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_guide"
+                android:contentDescription="ガイド" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_guide"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_tab_active_dot" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_tab_settings"
+                android:contentDescription="設定" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_settings"
+                android:textSize="11sp"
+                android:textColor="@color/ink"
+                android:fontFamily="@font/zen_maru_gothic"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

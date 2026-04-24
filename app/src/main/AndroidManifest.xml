@@ -27,6 +27,21 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.ReportActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.HomeActivity" />
+
+        <activity
+            android:name=".ui.GuideActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.HomeActivity" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.HomeActivity" />
+
         <service
             android:name=".service.FloatingCameraService"
             android:foregroundServiceType="camera"
