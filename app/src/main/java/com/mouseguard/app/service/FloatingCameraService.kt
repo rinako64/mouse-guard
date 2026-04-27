@@ -32,6 +32,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.mouseguard.app.R
+import com.mouseguard.app.data.EventStore
 import com.mouseguard.app.databinding.LayoutFloatingOverlayBinding
 import com.mouseguard.app.detection.FaceAnalyzer
 import com.mouseguard.app.settings.SettingsStore
@@ -76,7 +77,11 @@ class FloatingCameraService : Service(), LifecycleOwner {
     private var consecutiveClosedCount = 0
     private var consecutiveOpenCount = 0
     private val OPEN_DEBOUNCE = 2
-    private val CLOSE_DEBOUNCE = 8
+    // 閉じデバウンス: 200ms × 3 = 600ms 連続で閉じが続いたらオーバーレイを下げる。
+    // 子どもが閉じたらすぐ消える方がストレスが少ないため小さめに設定。
+    private val CLOSE_DEBOUNCE = 3
+    // minOpenHoldMs はオーバーレイの表示時間ではなく、
+    // 「ぽかんイベントとしてレポートに記録するための最低持続時間」として扱う。
     private var minOpenHoldMs = 3000L
     private var thresholdAvg = 0.08f
     private var thresholdMax = 0.10f
@@ -120,6 +125,8 @@ class FloatingCameraService : Service(), LifecycleOwner {
         startForeground(NOTIFICATION_ID, buildNotification())
         setupOverlay()
         startCamera()
+
+        EventStore.startSession(this, System.currentTimeMillis())
     }
 
     private fun getTargetRotation(): Int {
@@ -135,6 +142,7 @@ class FloatingCameraService : Service(), LifecycleOwner {
 
     override fun onDestroy() {
         isRunning = false
+        EventStore.endSession(this, System.currentTimeMillis())
         if (hasAudioFocus) {
             audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
             hasAudioFocus = false
@@ -229,11 +237,18 @@ class FloatingCameraService : Service(), LifecycleOwner {
                         } else {
                             consecutiveOpenCount = 0
                             consecutiveClosedCount++
-                            if (isMouthOpen
-                                && consecutiveClosedCount >= CLOSE_DEBOUNCE
-                                && now - mouthOpenSince >= minOpenHoldMs) {
+                            if (isMouthOpen && consecutiveClosedCount >= CLOSE_DEBOUNCE) {
                                 isMouthOpen = false
-                                Log.d(TAG, ">>> MOUTH CLOSED detected!")
+                                val openDuration = now - mouthOpenSince
+                                // ぽかんとして記録するのは持続時間が minOpenHoldMs 以上のときだけ。
+                                // 短い開け（あくび/会話/嚥下等）はオーバーレイで合図はするが
+                                // レポートには残さない。
+                                if (openDuration >= minOpenHoldMs) {
+                                    EventStore.recordPokanEvent(applicationContext, mouthOpenSince, now)
+                                    Log.d(TAG, ">>> MOUTH CLOSED detected! durMs=$openDuration recorded")
+                                } else {
+                                    Log.d(TAG, ">>> MOUTH CLOSED detected! durMs=$openDuration skipped (under hold threshold)")
+                                }
                                 mainHandler.post { onMouthStateChanged(false) }
                             }
                         }

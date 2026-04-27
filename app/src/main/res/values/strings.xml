@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MouseGuard</string>
-    <string name="app_icon_emoji">🐱</string>
-    <string name="app_description">子どもが動画を見るとき、口が開いたら自動で一時停止します。\n\nYouTube Kidsなど、どのアプリでも使えます。</string>
-    <string name="camera_permission_message">口の検知にカメラの使用許可が必要です</string>
     <string name="camera_permission_denied">カメラの許可が必要です</string>
     <string name="mouth_open_warning">おくちとじてね！</string>
-    <string name="overlay_icon">🤐</string>
-    <string name="initializing">カメラ準備中…</string>
+    <string name="overlay_permission_needed">「他のアプリの上に表示」の許可が必要です。設定画面で許可してください。</string>
+    <string name="service_started">監視を開始しました</string>
+    <string name="notification_text">口の開閉を監視しています</string>
+    <string name="stop_service">停止</string>
 
-    <!-- ホーム画面（新デザイン） -->
+    <!-- ホーム画面 -->
     <string name="home_logo_text">Mouse Guard</string>
     <string name="home_status_standby">見守り待機中</string>
+    <string name="home_status_running">見守り中</string>
     <string name="home_title">お口ぽかんの見守り、\nはじめよう。</string>
     <string name="home_subtitle">口が開いたらカメラが動画をストップ</string>
     <string name="btn_start_monitoring">監視をスタート</string>
     <string name="btn_start_monitoring_sub">タップして、カメラを起動</string>
     <string name="btn_stop_monitoring">監視をストップ</string>
-
-    <!-- 今日のサマリー -->
-    <string name="summary_title">今日のサマリー</string>
-    <string name="summary_warning_label">警告</string>
-    <string name="summary_warning_unit">回</string>
-    <string name="summary_time_label">見守り時間</string>
-    <string name="summary_time_unit">分</string>
 
     <!-- タブ -->
     <string name="tab_home">ホーム</string>
@@ -51,7 +44,7 @@
 
     <!-- ガイド画面 -->
     <string name="guide_title">使い方ガイド</string>
-    <string name="guide_hero_title">はじめての\n4ステップ</string>
+    <string name="guide_hero_title">はじめての\n4ステップ。</string>
     <string name="guide_hero_subtitle">Mouse Guard をはじめる前に、\n簡単なセットアップをしましょう。</string>
 
     <string name="step_01_label">STEP 01</string>
@@ -59,7 +52,7 @@
     <string name="step_01_body">はじめて「監視をスタート」をタップすると、カメラの使用を聞かれます。口の開閉を見分けるためにフロントカメラを使うので、「許可」を選んでください。</string>
 
     <string name="step_02_label">STEP 02</string>
-    <string name="step_02_title">画面の上に重ねる権限をオン</string>
+    <string name="step_02_title">画面の上に重ねる権限をオンにする</string>
     <string name="step_02_body">動画アプリの上に「おくちとじてね」の合図を出すため、「他のアプリの上に表示」の許可が必要です。設定画面が開いたら Mouse Guard のスイッチをオンにして戻ってきてください。</string>
 
     <string name="step_03_label">STEP 03</string>
@@ -106,19 +99,4 @@
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="privacy_policy_url" translatable="false"></string>
     <string name="privacy_url_not_configured">プライバシーポリシーのURLが設定されていません</string>
-
-    <!-- 旧互換 -->
-    <string name="app_subtitle">お口を閉じて楽しく見よう！</string>
-    <string name="app_subtitle2">YouTube Kidsなど、どのアプリでも使えます</string>
-    <string name="today_record_title">今日の記録</string>
-    <string name="record_encourage">がんばっているね！</string>
-    <string name="how_to_use_title">使い方</string>
-    <string name="step_1">「監視スタート」をタップ</string>
-    <string name="step_2">YouTube Kidsなどで動画を再生</string>
-    <string name="step_3">口が開くと動画が自動で一時停止し、閉じると再開します</string>
-    <string name="step_4">止めたい場合は「監視ストップ」を押す</string>
-    <string name="overlay_permission_needed">「他のアプリの上に表示」の許可が必要です。設定画面で許可してください。</string>
-    <string name="service_started">監視を開始しました</string>
-    <string name="notification_text">口の開閉を監視しています</string>
-    <string name="stop_service">停止</string>
 </resources>

@@ -63,10 +63,11 @@
                     android:includeFontPadding="false" />
 
                 <TextView
-                    android:layout_width="38dp"
+                    android:id="@+id/tvPeriodLabel"
+                    android:layout_width="56dp"
                     android:layout_height="wrap_content"
                     android:text="@string/report_week_label"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textColor="@color/ink_sub"
                     android:fontFamily="@font/zen_maru_gothic"
                     android:textStyle="bold"
@@ -105,10 +106,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/seg_week"
                     android:textSize="14sp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/ink_sub"
                     android:fontFamily="@font/zen_maru_gothic"
                     android:textStyle="bold"
-                    android:background="@drawable/bg_seg_on"
                     android:paddingHorizontal="22dp"
                     android:paddingVertical="8dp"
                     android:clickable="true"
@@ -141,6 +141,7 @@
                 android:elevation="1dp">
 
                 <TextView
+                    android:id="@+id/tvTotalLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/report_total_this_week"
@@ -157,9 +158,10 @@
                     android:layout_marginTop="2dp">
 
                     <TextView
+                        android:id="@+id/tvTotalCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14"
+                        android:text="0"
                         android:textSize="40sp"
                         android:textColor="@color/ink"
                         android:fontFamily="@font/zen_maru_gothic"
@@ -179,6 +181,7 @@
                         android:includeFontPadding="false" />
 
                     <TextView
+                        android:id="@+id/tvTrendChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/report_vs_last_week"
@@ -189,7 +192,8 @@
                         android:background="@drawable/bg_chip_mint"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <TextView
@@ -210,9 +214,10 @@
                     android:layout_marginTop="2dp">
 
                     <TextView
+                        android:id="@+id/tvMonitorHours"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         android:textSize="22sp"
                         android:textColor="@color/ink"
                         android:fontFamily="@font/zen_maru_gothic"
@@ -231,9 +236,10 @@
                         android:includeFontPadding="false" />
 
                     <TextView
+                        android:id="@+id/tvMonitorMinutes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="0"
                         android:textSize="22sp"
                         android:textColor="@color/ink"
                         android:fontFamily="@font/zen_maru_gothic"
@@ -359,9 +365,10 @@
                         android:gravity="bottom">
 
                         <TextView
+                            android:id="@+id/tvStreakValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5"
+                            android:text="0"
                             android:textSize="52sp"
                             android:textColor="@color/ink"
                             android:fontFamily="@font/zen_maru_gothic"
@@ -408,9 +415,10 @@
                         android:gravity="bottom">
 
                         <TextView
+                            android:id="@+id/tvKeepHours"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2"
+                            android:text="0"
                             android:textSize="40sp"
                             android:textColor="@color/ink"
                             android:fontFamily="@font/zen_maru_gothic"
@@ -431,9 +439,10 @@
                             android:paddingBottom="6dp" />
 
                         <TextView
+                            android:id="@+id/tvKeepMinutes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="38"
+                            android:text="0"
                             android:textSize="40sp"
                             android:textColor="@color/ink"
                             android:fontFamily="@font/zen_maru_gothic"
@@ -477,6 +486,7 @@
                     android:contentDescription="@null" />
 
                 <TextView
+                    android:id="@+id/tvPokaroMsg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

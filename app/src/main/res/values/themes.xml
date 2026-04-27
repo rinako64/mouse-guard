@@ -15,6 +15,10 @@
         <item name="android:textViewStyle">@style/AppText</item>
         <item name="android:fontFamily">@font/zen_maru_gothic</item>
         <item name="fontFamily">@font/zen_maru_gothic</item>
+
+        <!-- Splash screen (Android 12+) -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">@color/pastel_yellow</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@mipmap/ic_launcher</item>
     </style>
 
     <style name="AppText" parent="@android:style/Widget.TextView">

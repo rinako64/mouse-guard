@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.util.Log
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceContour
+import kotlin.math.abs
 import kotlin.math.hypot
 
 data class MouthDetectionResult(
@@ -19,9 +20,24 @@ class MouthDetector(
 ) {
     companion object {
         private const val TAG = "MouthGuard"
+
+        // Occlusion / 異常姿勢ガード
+        // 手で口を覆っている、横顔、極端な俯き等の場合は判定を見送り、状態を維持する
+        private const val MAX_AVG_RATIO = 0.30f       // これ以上の隙間は物理的にありえない（手等で覆われている可能性）
+        private const val MAX_MAX_RATIO = 0.35f
+        private const val MAX_HEAD_YAW_DEG = 30f      // 横向き
+        private const val MAX_HEAD_PITCH_DEG = 30f    // 俯き・あおり
     }
 
     fun detect(face: Face): MouthDetectionResult? {
+        // 1) 顔の向きが極端な場合は信頼できないので判定見送り
+        if (abs(face.headEulerAngleY) > MAX_HEAD_YAW_DEG ||
+            abs(face.headEulerAngleX) > MAX_HEAD_PITCH_DEG
+        ) {
+            Log.d(TAG, "Skip: extreme pose yaw=${"%.1f".format(face.headEulerAngleY)} pitch=${"%.1f".format(face.headEulerAngleX)}")
+            return null
+        }
+
         // 上唇の内側（下端）・下唇の内側（上端）・上唇の外側（上端＝口角の定義用）
         val upperInner = face.getContour(FaceContour.UPPER_LIP_BOTTOM)?.points ?: return null
         val lowerInner = face.getContour(FaceContour.LOWER_LIP_TOP)?.points ?: return null
@@ -48,6 +64,12 @@ class MouthDetector(
         // 口幅で正規化（顔の大きさ・距離に依存しない）
         val avgRatio = avgGap / mouthWidth
         val maxRatio = maxGap / mouthWidth
+
+        // 2) 比率が異常に大きい場合は手で覆っている等の occlusion と推定し見送り
+        if (avgRatio > MAX_AVG_RATIO || maxRatio > MAX_MAX_RATIO) {
+            Log.d(TAG, "Skip: ratio too large (occlusion suspected) avgR=${"%.3f".format(avgRatio)} maxR=${"%.3f".format(maxRatio)}")
+            return null
+        }
 
         // 平均ギャップ OR 最大ギャップのどちらかが閾値を超えたら「開いている」
         val isOpen = avgRatio > thresholdAvg || maxRatio > thresholdMax

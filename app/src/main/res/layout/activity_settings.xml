@@ -237,18 +237,18 @@
                         android:id="@+id/badgePermOverlay"
                         layout="@layout/view_perm_badge" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/perm_note"
-                android:textSize="12sp"
-                android:textColor="@color/ink_sub"
-                android:fontFamily="@font/zen_maru_gothic"
-                android:lineSpacingMultiplier="1.7"
-                android:paddingHorizontal="28dp"
-                android:paddingTop="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/perm_note"
+                    android:textSize="11sp"
+                    android:textColor="@color/ink_sub"
+                    android:fontFamily="@font/zen_maru_gothic"
+                    android:lineSpacingMultiplier="1.7"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="14dp" />
+            </LinearLayout>
 
             <!-- ===== アプリについて ===== -->
             <TextView

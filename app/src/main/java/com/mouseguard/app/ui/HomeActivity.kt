@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -67,10 +66,6 @@ class HomeActivity : AppCompatActivity() {
         }
         findViewById<LinearLayout>(R.id.tabSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
-        }
-
-        findViewById<FrameLayout>(R.id.btnMenu).setOnClickListener {
-            Toast.makeText(this, "メニューは近日公開", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -134,9 +129,38 @@ class HomeActivity : AppCompatActivity() {
 
     private fun updateStatusPill() {
         val running = FloatingCameraService.isRunning
-        tvStatusLabel.text = if (running) "見守り中" else getString(R.string.home_status_standby)
-        findViewById<View>(R.id.statusDot).setBackgroundResource(
-            if (running) R.drawable.bg_chip_yellow else R.drawable.bg_mint_dot
+        tvStatusLabel.text = getString(
+            if (running) R.string.home_status_running else R.string.home_status_standby
         )
+        val dot = findViewById<View>(R.id.statusDot)
+        dot.setBackgroundResource(R.drawable.bg_mint_dot)
+        dot.animate().cancel()
+        if (running) {
+            startDotPulse(dot)
+        } else {
+            dot.alpha = 1.0f
+        }
+    }
+
+    private fun startDotPulse(dot: View) {
+        dot.animate()
+            .alpha(0.35f)
+            .setDuration(800)
+            .withEndAction {
+                if (!FloatingCameraService.isRunning) return@withEndAction
+                dot.animate()
+                    .alpha(1.0f)
+                    .setDuration(800)
+                    .withEndAction {
+                        if (FloatingCameraService.isRunning) startDotPulse(dot)
+                    }
+                    .start()
+            }
+            .start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        findViewById<View>(R.id.statusDot)?.animate()?.cancel()
     }
 }

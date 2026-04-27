@@ -45,23 +45,6 @@
                     android:letterSpacing="0.02"
                     android:includeFontPadding="false" />
 
-                <FrameLayout
-                    android:id="@+id/btnMenu"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center_vertical|end"
-                    android:background="@drawable/bg_menu_btn"
-                    android:stateListAnimator="@animator/btn_scale_press"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_menu"
-                        android:contentDescription="メニュー" />
-                </FrameLayout>
             </FrameLayout>
 
             <!-- ======= Hero: 上にマイナスマージンで食い込む ======= -->
