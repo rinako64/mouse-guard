@@ -4,8 +4,8 @@
     <string name="camera_permission_denied">カメラの許可が必要です</string>
     <string name="mouth_open_warning">おくちとじてね！</string>
     <string name="overlay_permission_needed">「他のアプリの上に表示」の許可が必要です。設定画面で許可してください。</string>
-    <string name="service_started">監視を開始しました</string>
-    <string name="notification_text">口の開閉を監視しています</string>
+    <string name="service_started">見守りを開始しました</string>
+    <string name="notification_text">口の開閉を見守っています</string>
     <string name="stop_service">停止</string>
 
     <!-- ホーム画面 -->
@@ -14,9 +14,9 @@
     <string name="home_status_running">見守り中</string>
     <string name="home_title">お口ぽかんの見守り、\nはじめよう。</string>
     <string name="home_subtitle">口が開いたらカメラが動画をストップ</string>
-    <string name="btn_start_monitoring">監視をスタート</string>
+    <string name="btn_start_monitoring">見守りスタート</string>
     <string name="btn_start_monitoring_sub">タップして、カメラを起動</string>
-    <string name="btn_stop_monitoring">監視をストップ</string>
+    <string name="btn_stop_monitoring">見守りストップ</string>
 
     <!-- タブ -->
     <string name="tab_home">ホーム</string>
@@ -49,7 +49,7 @@
 
     <string name="step_01_label">STEP 01</string>
     <string name="step_01_title">カメラの使用を許可する</string>
-    <string name="step_01_body">はじめて「監視をスタート」をタップすると、カメラの使用を聞かれます。口の開閉を見分けるためにフロントカメラを使うので、「許可」を選んでください。</string>
+    <string name="step_01_body">はじめて「見守りスタート」をタップすると、カメラの使用を聞かれます。口の開閉を見分けるためにフロントカメラを使うので、「許可」を選んでください。</string>
 
     <string name="step_02_label">STEP 02</string>
     <string name="step_02_title">画面の上に重ねる権限をオンにする</string>
@@ -70,10 +70,10 @@
     <string name="ts_a2">・歯のすき間が見えるくらいしっかり開けてみる\n・ちょっとした笑顔やあくびで止まらないよう、ぽかんは3秒以上続けて初めて検知されます\n・カメラから離れすぎていないか確認する（目安：30〜60cm）</string>
     <string name="ts_q3">口を閉じても動画が再開しないとき</string>
     <string name="ts_a3">・動画アプリが「一時停止・再生」の操作に対応している必要があります（YouTube / YouTube Kids / YouTube Music は対応確認済み）\n・ライブ配信や一部の動画アプリでは自動で再開されないことがあります</string>
-    <string name="ts_q4">監視を止めたいとき</string>
-    <string name="ts_a4">・ホーム画面の「監視をストップ」、または通知バーの「停止」からいつでも止められます</string>
+    <string name="ts_q4">見守りを止めたいとき</string>
+    <string name="ts_a4">・ホーム画面の「見守りストップ」、または通知バーの「停止」からいつでも止められます</string>
     <string name="ts_q5">通知が消せないとき</string>
-    <string name="ts_a5">・見守り中はAndroidの仕様で通知が常に表示されます。監視をストップすれば自動で消えます</string>
+    <string name="ts_a5">・見守り中はAndroidの仕様で通知が常に表示されます。見守りストップすれば自動で消えます</string>
 
     <string name="notes_section_title">知っておいてほしいこと</string>
     <string name="notes_body">・フロントカメラ付きの端末でのみ動作します\n・見守り中はフロントカメラを使うため、バッテリー消費がいつもより少し増えます\n・映像はすべてスマホの中で処理され、録画・送信は一切行いません</string>
@@ -92,7 +92,7 @@
     <string name="perm_overlay">他のアプリの上に表示</string>
     <string name="perm_badge_ok">許可済み</string>
     <string name="perm_badge_ng">未許可</string>
-    <string name="perm_note">権限が未許可だと、監視が開始できません。タップで OS の設定画面を開きます。</string>
+    <string name="perm_note">権限が未許可だと、見守りが開始できません。タップで OS の設定画面を開きます。</string>
 
     <string name="settings_section_about">アプリについて</string>
     <string name="about_version">バージョン</string>
