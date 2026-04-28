@@ -3,9 +3,11 @@ package com.mouseguard.app.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mouseguard.app.R
+import com.mouseguard.app.ad.AdGate
 
 class GuideActivity : AppCompatActivity() {
 
@@ -34,5 +36,7 @@ class GuideActivity : AppCompatActivity() {
             })
             finish()
         }
+
+        AdGate.loadBanner(this, findViewById<FrameLayout>(R.id.adContainer))
     }
 }

@@ -1,81 +1,61 @@
 package com.mouseguard.app.ad
 
 import android.app.Activity
+import android.util.DisplayMetrics
 import android.util.Log
-import com.google.android.gms.ads.AdError
+import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.mouseguard.app.BuildConfig
 
 object AdGate {
 
     private const val TAG = "AdGate"
 
-    // テスト用広告ユニットID（リリース時に本番IDへ差し替え）
-    private const val AD_UNIT_ID = "ca-app-pub-6292808487320633/7675214183"
+    // 本番のバナー広告ユニットID（adSupported flavor のみで使用）
+    private const val BANNER_PROD_ID = "ca-app-pub-6292808487320633/2061394032"
+    // Google公式テストID（自己クリックでアカウント停止になるため、開発時は必ずテストIDを使う）
+    private const val BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111"
 
-    private var rewardedAd: RewardedAd? = null
+    private val bannerAdUnitId: String
+        get() = if (BuildConfig.DEBUG) BANNER_TEST_ID else BANNER_PROD_ID
+
     private var isInitialized = false
 
-    /** アプリ起動時に呼ぶ */
     fun init(activity: Activity) {
         if (!isInitialized) {
             MobileAds.initialize(activity) {}
             isInitialized = true
         }
-        loadAd(activity)
     }
 
-    /** 広告を表示し、視聴完了後にonGrantedを呼ぶ */
-    fun showIfNeeded(activity: Activity, onGranted: () -> Unit) {
-        val ad = rewardedAd
-        if (ad == null) {
-            // 広告がまだ読み込まれていない場合はそのまま通す
-            Log.w(TAG, "Ad not loaded yet, granting access")
-            onGranted()
-            loadAd(activity)
-            return
-        }
-
-        ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {
-                rewardedAd = null
-                loadAd(activity)
+    /** バナー広告をcontainerに読み込む（adSupported版のみ実体あり） */
+    fun loadBanner(activity: Activity, container: ViewGroup) {
+        init(activity)
+        container.post {
+            val adView = AdView(activity)
+            adView.setAdSize(adaptiveBannerSize(activity, container))
+            adView.adUnitId = bannerAdUnitId
+            container.removeAllViews()
+            container.addView(adView)
+            try {
+                adView.loadAd(AdRequest.Builder().build())
+            } catch (t: Throwable) {
+                Log.e(TAG, "Banner load failed", t)
             }
-
-            override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                Log.e(TAG, "Ad failed to show: ${error.message}")
-                rewardedAd = null
-                onGranted()
-                loadAd(activity)
-            }
-        }
-
-        ad.show(activity) { _ ->
-            Log.d(TAG, "User earned reward")
-            onGranted()
         }
     }
 
-    private fun loadAd(activity: Activity) {
-        RewardedAd.load(
-            activity,
-            AD_UNIT_ID,
-            AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardedAd = ad
-                    Log.d(TAG, "Rewarded ad loaded")
-                }
-
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    rewardedAd = null
-                    Log.e(TAG, "Rewarded ad failed to load: ${error.message}")
-                }
-            }
-        )
+    private fun adaptiveBannerSize(activity: Activity, container: ViewGroup): AdSize {
+        val metrics = DisplayMetrics().also {
+            @Suppress("DEPRECATION")
+            activity.windowManager.defaultDisplay.getMetrics(it)
+        }
+        val density = metrics.density.takeIf { it > 0f } ?: 1f
+        val widthPx = container.width.takeIf { it > 0 } ?: metrics.widthPixels
+        val widthDp = (widthPx / density).toInt().coerceAtLeast(50)
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, widthDp)
     }
 }

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="140dp">
+            android:paddingBottom="210dp">
 
             <!-- ===== App Bar ===== -->
             <LinearLayout
@@ -501,6 +501,15 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== Bottom Banner Ad ===== -->
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="100dp"
+        android:gravity="center" />
 
     <!-- ===== Bottom Tab Bar ===== -->
     <LinearLayout

@@ -50,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
         imgMascot.setOnClickListener { bounceMascot() }
 
         btnStart.setOnClickListener {
-            AdGate.showIfNeeded(this) { checkAndStart() }
+            checkAndStart()
         }
         btnStop.setOnClickListener {
             stopService(Intent(this, FloatingCameraService::class.java))

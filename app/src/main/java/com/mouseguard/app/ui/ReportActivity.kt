@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mouseguard.app.R
+import com.mouseguard.app.ad.AdGate
 import com.mouseguard.app.data.BarBucket
 import com.mouseguard.app.data.EventStore
 import com.mouseguard.app.data.Period
@@ -82,6 +84,8 @@ class ReportActivity : AppCompatActivity() {
             })
             finish()
         }
+
+        AdGate.loadBanner(this, findViewById<FrameLayout>(R.id.adContainer))
     }
 
     override fun onResume() {
