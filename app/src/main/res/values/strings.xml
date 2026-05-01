@@ -97,6 +97,6 @@
     <string name="settings_section_about">アプリについて</string>
     <string name="about_version">バージョン</string>
     <string name="about_privacy">プライバシーポリシー</string>
-    <string name="privacy_policy_url" translatable="false"></string>
+    <string name="privacy_policy_url" translatable="false">https://mouseguard.app/privacy.html</string>
     <string name="privacy_url_not_configured">プライバシーポリシーのURLが設定されていません</string>
 </resources>
